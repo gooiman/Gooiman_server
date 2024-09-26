@@ -1,0 +1,11 @@
+spring:
+  application:
+    name: gooiman-server
+  datasource:
+    url: "jdbc:mysql://db.gooiman.internal:3306/gooiman?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&maxReconnects=10"
+    username: root
+    password: test
+  jpa:
+    generate-ddl: true
+    hibernate:
+      ddl-auto: update

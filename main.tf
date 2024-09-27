@@ -2,6 +2,16 @@ provider "aws" {
   region = var.aws_region
 }
 
+terraform {
+  cloud {
+    organization = "gooiman"
+
+    workspaces {
+      tags = ["gooiman"]
+    }
+  }
+}
+
 # VPC 설정
 resource "aws_vpc" "gooiman" {
   cidr_block = "10.0.0.0/16"

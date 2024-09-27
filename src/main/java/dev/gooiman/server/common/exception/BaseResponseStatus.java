@@ -1,4 +1,4 @@
-package dev.gooiman.server.exception;
+package dev.gooiman.server.common.exception;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -15,4 +15,4 @@ public enum BaseResponseStatus {
     private HttpStatus httpStatus;
     private String message;
 
-    }
+}

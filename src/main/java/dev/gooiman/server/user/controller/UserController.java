@@ -1,11 +1,7 @@
-package dev.gooiman.server.controller;
+package dev.gooiman.server.user.controller;
 
-import dev.gooiman.server.dto.LoginDto;
-import dev.gooiman.server.dto.ResponseDto;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RestController;
 
 @RequiredArgsConstructor
 @RestController("/api")

@@ -1,15 +1,19 @@
-package dev.gooiman.server.domain;
+package dev.gooiman.server.page.repository.entity;
 
-import jakarta.persistence.*;
+import dev.gooiman.server.memo.repository.entity.Memo;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
 
 @Getter
 @NoArgsConstructor
@@ -17,6 +21,7 @@ import java.util.UUID;
 @Builder
 @Entity
 public class Page {
+
     @Id
     @GeneratedValue(generator = "uuid2")
     @GenericGenerator(name = "uuid2", strategy = "uuid2")

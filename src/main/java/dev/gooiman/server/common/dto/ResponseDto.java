@@ -1,7 +1,7 @@
-package dev.gooiman.server.dto;
+package dev.gooiman.server.common.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import dev.gooiman.server.exception.BaseResponseStatus;
+import dev.gooiman.server.common.exception.BaseResponseStatus;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;

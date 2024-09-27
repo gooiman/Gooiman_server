@@ -1,13 +1,12 @@
-package dev.gooiman.server.dto;
+package dev.gooiman.server.user.application.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public class LoginDto {
+public class LoginRequestDto {
+
     private String name;
     private String password;
-
-
 }

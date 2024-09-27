@@ -1,11 +1,11 @@
-package dev.gooiman.server.repository;
+package dev.gooiman.server.page.repository;
 
-import dev.gooiman.server.domain.Page;
+import dev.gooiman.server.page.repository.entity.Page;
+import java.util.UUID;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import java.util.UUID;
-
 @Repository
 public interface PageRepository extends JpaRepository<Page, UUID> {
+
 }

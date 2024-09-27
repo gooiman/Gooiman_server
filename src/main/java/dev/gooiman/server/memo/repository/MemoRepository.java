@@ -1,11 +1,9 @@
-package dev.gooiman.server.repository;
+package dev.gooiman.server.memo.repository;
 
-import dev.gooiman.server.domain.Memo;
+import dev.gooiman.server.memo.repository.entity.Memo;
+import java.util.UUID;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-
-import java.util.List;
-import java.util.UUID;
 
 @Repository
 public interface MemoRepository extends JpaRepository<Memo, UUID> {

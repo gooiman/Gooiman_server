@@ -1,19 +1,18 @@
-package dev.gooiman.server.service;
+package dev.gooiman.server.memo.application;
 
 
-import dev.gooiman.server.domain.Memo;
-import dev.gooiman.server.domain.Page;
-import dev.gooiman.server.domain.User;
-import dev.gooiman.server.dto.CreateMemoDto;
-import dev.gooiman.server.exception.BaseException;
-import dev.gooiman.server.repository.MemoRepository;
-import dev.gooiman.server.repository.PageRepository;
-import dev.gooiman.server.repository.UserRepository;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
-
+import dev.gooiman.server.common.exception.BaseException;
+import dev.gooiman.server.memo.application.dto.CreateMemoResponseDto;
+import dev.gooiman.server.memo.repository.MemoRepository;
+import dev.gooiman.server.memo.repository.entity.Memo;
+import dev.gooiman.server.page.repository.PageRepository;
+import dev.gooiman.server.page.repository.entity.Page;
+import dev.gooiman.server.user.repository.UserRepository;
+import dev.gooiman.server.user.repository.entity.User;
 import java.util.Optional;
 import java.util.UUID;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
@@ -23,7 +22,8 @@ public class MemoService {
     private final UserRepository userRepository;
     private final PageRepository pageRepository;
 
-    public CreateMemoDto.Res create(CreateMemoDto createMemoDto) throws BaseException {
+    public CreateMemoResponseDto.Res create(CreateMemoResponseDto createMemoDto)
+        throws BaseException {
         String pageId = createMemoDto.getPageId();
         String author = createMemoDto.getAuthor();
         String title = createMemoDto.getTitle();
@@ -43,14 +43,14 @@ public class MemoService {
         User userEntity = user.get();
         Page pageEntity = page.get();
         Memo memo = Memo.builder().title(title)
-                .category(category)
-                .subCategory(subCategory)
-                .content(content)
-                .user(userEntity)
-                .page(pageEntity)
-                .build();
+            .category(category)
+            .subCategory(subCategory)
+            .content(content)
+            .user(userEntity)
+            .page(pageEntity)
+            .build();
         Memo savedMemo = memoRepository.save(memo);
-        CreateMemoDto.Res res = CreateMemoDto.Res.mapEntityToDto(savedMemo);
+        CreateMemoResponseDto.Res res = CreateMemoResponseDto.Res.mapEntityToDto(savedMemo);
         return res;
     }
 }

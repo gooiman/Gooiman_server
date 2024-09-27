@@ -1,9 +1,9 @@
-package dev.gooiman.server.controller;
+package dev.gooiman.server.page.controller;
 
-import dev.gooiman.server.dto.CreatePageDto;
-import dev.gooiman.server.dto.ResponseDto;
-import dev.gooiman.server.exception.BaseResponseStatus;
-import dev.gooiman.server.service.PageService;
+import dev.gooiman.server.page.application.dto.CreatePageResponseDto;
+import dev.gooiman.server.common.dto.ResponseDto;
+import dev.gooiman.server.common.exception.BaseResponseStatus;
+import dev.gooiman.server.page.application.PageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,8 +15,8 @@ public class PageController {
     private final PageService pageService;
 
     @PutMapping("/page")
-    public ResponseEntity<ResponseDto> createPage(@RequestBody CreatePageDto createPageDto) {
-        CreatePageDto.Res res = pageService.create(createPageDto);
+    public ResponseEntity<ResponseDto> createPage(@RequestBody CreatePageResponseDto createPageDto) {
+        CreatePageResponseDto.Res res = pageService.create(createPageDto);
         return ResponseEntity.status(BaseResponseStatus.SUCCESS.getHttpStatus().value()).body(new ResponseDto(BaseResponseStatus.SUCCESS, res));
     }
 

@@ -1,21 +1,21 @@
-package dev.gooiman.server.dto;
+package dev.gooiman.server.memo.application.dto;
 
+import java.util.List;
+import java.util.Map;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 
-import java.util.List;
-import java.util.Map;
-
 @Getter
 @AllArgsConstructor
-public class MemoSummariseDto {
+public class MemoSummariseResponseDto {
 
 
     @Getter
     @AllArgsConstructor
     @Builder
-    public static class Res{
+    public static class Res {
+
         private String name;
         private Map<String, Map<String, List<String>>> memoSummarise;
     }

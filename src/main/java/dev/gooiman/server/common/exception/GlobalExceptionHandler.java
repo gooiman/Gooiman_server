@@ -21,7 +21,7 @@ public class GlobalExceptionHandler {
         log.error(
             "handleHttpMessageNotReadableException() in GlobalExceptionHandler throw HttpMessageNotReadableException : {}",
             e.getMessage());
-        return ResponseDto.fail(new ErrorCode(ErrorCode.BAD_REQUEST_JSON));
+        return ResponseDto.fail(new CommonException(ErrorCode.BAD_REQUEST_JSON));
     }
 
     // 지원되지 않는 HTTP 메소드를 사용할 때 발생하는 예외
@@ -31,7 +31,7 @@ public class GlobalExceptionHandler {
         log.error(
             "handleNoPageFoundException() in GlobalExceptionHandler throw NoHandlerFoundException : {}",
             e.getMessage());
-        return ResponseDto.fail(new ErrorCode(ErrorCode.NOT_FOUND_END_POINT));
+        return ResponseDto.fail(new CommonException(ErrorCode.NOT_FOUND_END_POINT));
     }
 
     // @Validated 어노테이션을 사용하여 검증을 수행할 때 발생하는 예외
@@ -63,8 +63,8 @@ public class GlobalExceptionHandler {
     }
 
     // 개발자가 직접 정의한 예외
-    @ExceptionHandler(value = {ErrorCode.class})
-    public ResponseDto<?> handleApiException(ErrorCode e) {
+    @ExceptionHandler(value = {CommonException.class})
+    public ResponseDto<?> handleApiException(CommonException e) {
         log.error("handleApiException() in GlobalExceptionHandler throw CommonException : {}",
             e.getMessage());
         return ResponseDto.fail(e);
@@ -76,6 +76,6 @@ public class GlobalExceptionHandler {
         log.error("handleException() in GlobalExceptionHandler throw Exception : {}",
             e.getMessage());
         e.printStackTrace();
-        return ResponseDto.fail(new ErrorCode(ErrorCode.INTERNAL_SERVER_ERROR));
+        return ResponseDto.fail(new CommonException(ErrorCode.INTERNAL_SERVER_ERROR));
     }
 }

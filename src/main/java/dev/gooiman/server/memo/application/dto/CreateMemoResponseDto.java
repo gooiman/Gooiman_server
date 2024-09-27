@@ -1,6 +1,5 @@
 package dev.gooiman.server.memo.application.dto;
 
-import dev.gooiman.server.memo.repository.entity.Memo;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -27,15 +26,15 @@ public class CreateMemoResponseDto {
         private String subCategory;
         private String content;
 
-        public static Res mapEntityToDto(Memo memoEntity) {
-            return Res.builder().pageId(String.valueOf(memoEntity.getPage().getPageId()))
-                .author(memoEntity.getUser().getName())
-                .title(memoEntity.getTitle())
-                .category(memoEntity.getCategory())
-                .subCategory(memoEntity.getSubCategory())
-                .content(memoEntity.getContent())
-                .build();
-        }
+//        public static Res mapEntityToDto(Memo memoEntity) {
+//            return Res.builder().pageId(String.valueOf(memoEntity.getPage().getPageId()))
+//                .author(memoEntity.getUser().getName())
+//                .title(memoEntity.getTitle())
+//                .category(memoEntity.getCategory())
+//                .subCategory(memoEntity.getSubCategory())
+//                .content(memoEntity.getContent())
+//                .build();
+//        }
     }
 
 }

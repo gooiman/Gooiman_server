@@ -1,0 +1,116 @@
+name: 개발 서비스 배포
+
+on:
+  push:
+    branches: [ develop ]
+env:
+  ENVIRONMENT: dev
+  SPRING_PROFILES_ACTIVE: dev
+jobs:
+  apply-terraform:
+    name: 'Terraform 리소스 적용'
+    runs-on: ubuntu-latest
+    steps:
+      - name: 레포지토리 체크아웃
+        uses: actions/checkout@v4
+      - name: Terraform 설치
+        uses: hashicorp/setup-terraform@v3
+        with:
+          cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
+      - name: Terraform 초기화
+        run: terraform init
+      - name: Terraform 워크스페이스 설정
+        run: terraform workspace select dev
+      - name: AWS 인증 설정
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ap-northeast-2
+      - name: Terraform 적용
+        # TODO: Terraform variable 적용
+        run: terraform apply -auto-approve
+      # TODO: Terraform output 추가 필요
+
+  docker-build:
+    name: 'Docker 이미지 빌드'
+    needs: [apply-terraform]
+    runs-on: ubuntu-latest
+    steps:
+      - name: 레포지토리 체크아웃
+        uses: actions/checkout@v4
+      - name: 도커 이미지 빌드
+        # TODO: 빌드 시 Argument 전달
+        run: docker build -t gooiman-api:${{ github.sha }} .
+
+      - name: 도커 이미지 저장
+        run: docker save gooiman-api:${{ github.sha }} > image.tar
+
+      - name: 도커 이미지 아티펙트 업로드
+        uses: actions/upload-artifact@v4
+        with:
+          name: docker-image
+          path: image.tar
+
+  ecr-push:
+    name: 'ECR 푸시'
+    needs: [apply-terraform, docker-build]
+    runs-on: ubuntu-latest
+    steps:
+      - name: 레포지토리 체크아웃
+        uses: actions/checkout@v4
+
+      - name: 도커 이미지 아티펙트 다운로드
+        uses: actions/download-artifact@v4
+        with:
+          name: docker-image
+
+      - name: 도커 이미지 로드
+        run: docker load < image.tar
+
+      - name: AWS 인증 설정
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ap-northeast-2
+
+      - name: Amazon ECR 로그인
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v2
+
+      - name: Amazon ECR에 이미지 푸시
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          # TODO: Terraform output으로부터 ECR 이름 가져오기
+          ECR_REPOSITORY: gooiman_dev
+          IMAGE_TAG: ${{ github.sha }}
+        run: |
+          docker tag gooiman-api:$IMAGE_TAG $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+
+  codedeploy:
+    name: 'CodeDeploy 배포'
+    needs: ecr-push
+    runs-on: ubuntu-latest
+    steps:
+      - name: 레포지토리 체크아웃
+        uses: actions/checkout@v4
+
+      - name: AWS 인증 설정
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ap-northeast-2
+
+      - name: CodeDeploy 배포 생성
+        # TODO: Terraform output으로부터 정보 가져오기
+        run: |
+          cd ./codedeploy/dev
+          zip -r deploy.zip .
+          aws deploy create-deployment \
+            --application-name YOUR_APPLICATION_NAME \
+            --deployment-group-name YOUR_DEPLOYMENT_GROUP_NAME \
+            --deployment-config-name CodeDeployDefault.OneAtATime \
+            --s3-location bucket=YOUR_S3_BUCKET,bundleType=zip,key=deploy.zip

@@ -42,5 +42,5 @@ tasks.withType<Test> {
 }
 
 tasks.bootRun {
-    args = listOf("--spring.profiles.active=local")
+    args = listOf("--spring.profiles.active=local", "--spring.docker.compose.file=docker-compose.bootrun.yml")
 }

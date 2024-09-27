@@ -1,0 +1,35 @@
+name: gooiman-server
+services:
+  mysql:
+    image: mysql:8
+    environment:
+      MYSQL_ROOT_PASSWORD: test
+      MYSQL_DATABASE: gooiman
+    command: "--character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci"
+    volumes:
+      - ./sql/:/docker-entrypoint-initdb.d/
+    container_name: db.gooiman.internal
+    healthcheck:
+      test: [ "CMD", "mysqladmin" ,"ping", "-h", "db.gooiman.internal" ]
+      interval: 10s
+      retries: 10
+      start_period: 10s
+      timeout: 10s
+    ports:
+      - "3306:3306"
+  sqlpad:
+    image: sqlpad/sqlpad
+    ports:
+      - "3000:3000"
+    depends_on:
+      - mysql
+    environment:
+      SQLPAD_ADMIN: admin
+      SQLPAD_ADMIN_PASSWORD: admin
+      SQLPAD_CONNECTIONS__mysql__name: gooiman
+      SQLPAD_CONNECTIONS__mysql__driver: mysql2
+      SQLPAD_CONNECTIONS__mysql__host: db.gooiman.internal
+      SQLPAD_CONNECTIONS__mysql__port: 3306
+      SQLPAD_CONNECTIONS__mysql__database: gooiman
+      SQLPAD_CONNECTIONS__mysql__username: root
+      SQLPAD_CONNECTIONS__mysql__password: test

@@ -3,7 +3,7 @@ services:
   mysql:
     image: mysql:8
     environment:
-      MYSQL_ROOT_PASSWORD: test
+      MYSQL_ROOT_PASSWORD: password
       MYSQL_DATABASE: gooiman
     command: "--character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci"
     volumes:
@@ -32,4 +32,4 @@ services:
       SQLPAD_CONNECTIONS__mysql__port: 3306
       SQLPAD_CONNECTIONS__mysql__database: gooiman
       SQLPAD_CONNECTIONS__mysql__username: root
-      SQLPAD_CONNECTIONS__mysql__password: test
+      SQLPAD_CONNECTIONS__mysql__password: password

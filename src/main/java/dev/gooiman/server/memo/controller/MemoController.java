@@ -5,6 +5,7 @@ import dev.gooiman.server.common.dto.ResponseDto;
 import dev.gooiman.server.memo.application.MemoService;
 import dev.gooiman.server.memo.application.dto.UpdateMemoRequestDto;
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -36,5 +37,10 @@ public class MemoController {
     public ResponseDto<CommonSuccessDto> updateMemo(@PathVariable("memoId") String memoId,
         @RequestBody UpdateMemoRequestDto dto) {
         return ResponseDto.ok(memoService.updateMemo(memoId, dto));
+    }
+
+    @DeleteMapping("/{memoId}")
+    public ResponseDto<CommonSuccessDto> deleteMemo(@PathVariable("memoId") String memoId) {
+        return ResponseDto.ok(memoService.deleteMemo(memoId));
     }
 }

@@ -76,7 +76,7 @@ jobs:
         run: |
           docker buildx build \
           --build-arg SPRING_PROFILES_ACTIVE=${{ env.ENVIRONMENT }} \
-          --build-arg DATABASE_ADDRESS=${{ needs.apply-terraform.outputs.rdx_endpoint }} \
+          --build-arg DATABASE_ADDRESS=${{ needs.apply-terraform.outputs.rds_endpoint }} \
           --build-arg DATABASE_USERNAME=${{ secrets.DEV_DATABASE_USER }} \
           --build-arg DATABASE_PASSWORD=${{ secrets.DEV_DATABASE_PASSWORD }} \
           -t gooiman-api:${{ github.sha }} .
@@ -155,9 +155,10 @@ jobs:
           touch scripts/deploy.sh
           echo "aws ecr get-login-password --region ap-northeast-2 | docker login --username AWS --password-stdin $ECR_REGISTRY" >> scripts/deploy.sh
           echo "docker pull $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >> scripts/deploy.sh
+          echo "sudo docker stop gooiman-api" >> scripts/deploy.sh
+          echo "sudo docker rm gooiman-api" >> scripts/deploy.sh
           echo "docker run -p 8080:8080 -e PROFILE=dev -d --restart always --name gooiman-api $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >> scripts/deploy.sh
           zip -r ${{ github.sha }}.zip .
-          aws s3 rm s3://gooiman-${{ env.ENVIRONMENT }}-deploy-bucket/ --recursive --include "*.zip" 
           aws s3 cp ${{ github.sha }}.zip s3://gooiman-${{ env.ENVIRONMENT }}-deploy-bucket/${{ github.sha }}.zip
           
 

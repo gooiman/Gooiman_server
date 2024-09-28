@@ -4,6 +4,8 @@ public record UpdateMemoRequestDto(String title,
                                    String content,
                                    String author,
                                    String category,
-                                   String subCategory) {
+                                   String subCategory,
+                                   String color
+                                   ) {
 
 }

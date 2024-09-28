@@ -3,7 +3,7 @@ package dev.gooiman.server.config.security.fliter;
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 import static org.springframework.util.StringUtils.hasText;
 
-import dev.gooiman.server.config.security.provider.JwtAuthenticationProvider;
+import dev.gooiman.server.config.security.provider.JwtProvider;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -18,9 +18,9 @@ import org.springframework.web.filter.OncePerRequestFilter;
 @Slf4j
 public class JwtFilter extends OncePerRequestFilter {
 
-    private final JwtAuthenticationProvider jwtAuthenticationProvider;
+    private final JwtProvider jwtAuthenticationProvider;
 
-    public JwtFilter(JwtAuthenticationProvider jwtAuthenticationProvider) {
+    public JwtFilter(JwtProvider jwtAuthenticationProvider) {
         this.jwtAuthenticationProvider = jwtAuthenticationProvider;
     }
 

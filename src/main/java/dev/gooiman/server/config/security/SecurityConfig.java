@@ -2,7 +2,7 @@ package dev.gooiman.server.config.security;
 
 import dev.gooiman.server.config.security.entrypoint.JwtAuthenticationEntryPoint;
 import dev.gooiman.server.config.security.handler.JwtAccessDeniedHandler;
-import dev.gooiman.server.config.security.provider.JwtAuthenticationProvider;
+import dev.gooiman.server.config.security.provider.JwtProvider;
 import dev.gooiman.server.config.web.CorsConfig;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,7 +24,7 @@ import org.springframework.security.web.SecurityFilterChain;
 public class SecurityConfig {
 
     private final CorsConfig corsConfig;
-    private final JwtAuthenticationProvider jwtAuthenticationProvider;
+    private final JwtProvider jwtAuthenticationProvider;
     private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
     private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
 

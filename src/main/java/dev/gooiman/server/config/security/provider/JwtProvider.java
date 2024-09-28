@@ -9,7 +9,6 @@ import dev.gooiman.server.auth.application.BlackListService;
 import dev.gooiman.server.auth.application.CustomUserDetailsService;
 import dev.gooiman.server.auth.application.domain.CustomUserDetails;
 import dev.gooiman.server.common.exception.CommonException;
-import dev.gooiman.server.common.exception.ErrorCode;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jws;
@@ -61,9 +60,9 @@ public class JwtProvider implements AuthenticationProvider {
                 .build()
                 .parseSignedClaims(token);
 
-            if (blackListService.isExists(token)) {
-                throw new CommonException(ErrorCode.INVALID_TOKEN_ERROR);
-            }
+//            if (blackListService.isExists(token)) {
+//                throw new CommonException(ErrorCode.INVALID_TOKEN_ERROR);
+//            }
 
             Claims claims = parsedToken.getPayload();
             String userId = claims.getSubject();

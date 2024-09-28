@@ -1,13 +1,10 @@
 package dev.gooiman.server.page.repository.entity;
 
-import dev.gooiman.server.memo.repository.entity.Memo;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
-import java.util.ArrayList;
-import java.util.List;
+import jakarta.persistence.Table;
 import java.util.UUID;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -20,6 +17,7 @@ import org.hibernate.annotations.GenericGenerator;
 @AllArgsConstructor
 @Builder
 @Entity
+@Table(name = "page")
 public class Page {
 
     @Id
@@ -30,6 +28,6 @@ public class Page {
 
     private String pageName;
 
-    @OneToMany(mappedBy = "page")
-    private List<Memo> memoList = new ArrayList<>();
+//    @OneToMany(mappedBy = "page")
+//    private List<Memo> memoList = new ArrayList<>();
 }

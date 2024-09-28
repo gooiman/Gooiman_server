@@ -44,6 +44,7 @@ public class SecurityConfig {
                 session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .headers(headers -> headers.frameOptions(FrameOptionsConfig::sameOrigin))
             .authorizeHttpRequests(auth -> auth
+                .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
                 .requestMatchers(HttpMethod.PUT, "/api/page/**").permitAll()
                 .requestMatchers(HttpMethod.POST, "/api/auth/**").permitAll()
                 .anyRequest().authenticated())

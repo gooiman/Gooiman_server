@@ -1,12 +1,15 @@
 package dev.gooiman.server.common.exception;
 
 import dev.gooiman.server.common.dto.ResponseDto;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.servlet.NoHandlerFoundException;
@@ -64,18 +67,21 @@ public class GlobalExceptionHandler {
 
     // 개발자가 직접 정의한 예외
     @ExceptionHandler(value = {CommonException.class})
-    public ResponseDto<?> handleApiException(CommonException e) {
+    @ResponseBody
+    public ResponseDto<?> handleApiException(CommonException e, HttpServletResponse response) {
         log.error("handleApiException() in GlobalExceptionHandler throw CommonException : {}",
             e.getMessage());
+        response.setStatus(e.getErrorCode().getHttpStatus().value());
         return ResponseDto.fail(e);
     }
 
     // 서버, DB 예외
     @ExceptionHandler(value = {Exception.class})
-    public ResponseDto<?> handleException(Exception e) {
+    public ResponseDto<?> handleException(Exception e, HttpServletResponse response) {
         log.error("handleException() in GlobalExceptionHandler throw Exception : {}",
             e.getMessage());
         e.printStackTrace();
+        response.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
         return ResponseDto.fail(new CommonException(ErrorCode.INTERNAL_SERVER_ERROR));
     }
 }

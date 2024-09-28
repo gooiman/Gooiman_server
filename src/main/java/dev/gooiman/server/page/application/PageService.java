@@ -44,27 +44,35 @@ public class PageService {
     @Transactional
     public CreatePageResponseDto.Res create(CreatePageResponseDto createPageDto) {
         String name = createPageDto.getName();
+        if (name==null || name.isEmpty()) {
+            throw new CommonException(ErrorCode.MISSING_REQUEST_PARAMETER);
+        }
         Page page = Page.builder().pageName(name).build();
         Page savedPage = pageRepository.save(page);
         return CreatePageResponseDto.Res.mapEntityToDto(savedPage);
     }
 
-    public MemoSummariseResponseDto.Res memoSummarise(UUID pageId) {
-        Optional<Page> page = pageRepository.findById(pageId);
-        Page pageEntity = page.get();
-        String pageName = pageEntity.getPageName();
-        Map<String, Map<String, List<String>>> memoSummarise = new HashMap<>();
-        List<Object[]> result = memoRepository.getMemoSummarise(pageId);
-        for (Object[] row : result) {
-            String title = (String) row[0];
-            String category = (String) row[1];
-            String subCategory = (String) row[2];
+    public MemoSummariseResponseDto.Res memoSummarise(String inputPageId) {
+        try {
+            UUID pageId = UUID.fromString(inputPageId);
+            Page pageEntity = pageRepository.findById(pageId)
+                    .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_SHARED_URL));
+            String pageName = pageEntity.getPageName();
+            Map<String, Map<String, List<String>>> memoSummarise = new HashMap<>();
+            List<Object[]> result = memoRepository.getMemoSummarise(pageId);
+            for (Object[] row : result) {
+                String title = (String) row[0];
+                String category = (String) row[1];
+                String subCategory = (String) row[2];
 
-            memoSummarise.computeIfAbsent(category, k -> new HashMap<>())
-                    .computeIfAbsent(subCategory, k -> new ArrayList<>())
-                    .add(title);
+                memoSummarise.computeIfAbsent(category, k -> new HashMap<>())
+                        .computeIfAbsent(subCategory, k -> new ArrayList<>())
+                        .add(title);
+            }
+            return new MemoSummariseResponseDto.Res(pageName, memoSummarise);
+        } catch (IllegalArgumentException exception) {
+            throw new CommonException(ErrorCode.INVALID_PARAMETER_FORMAT);
         }
-        return new MemoSummariseResponseDto.Res(pageName, memoSummarise);
     }
 
 }

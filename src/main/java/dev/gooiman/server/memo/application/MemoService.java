@@ -81,44 +81,60 @@ public class MemoService {
 
     @Transactional
     public CommonSuccessDto updateMemo(String memoId, @RequestBody UpdateMemoRequestDto dto) {
-        UUID uuid = UUID.fromString(memoId);
-        Memo memo = memoRepository.findById(uuid)
-            .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_MEMO));
-        User user = userService.getUserByName(dto.author());
-        memo.updateInfo(dto.title(), dto.content(), dto.category(), dto.subCategory(), dto.color(), user);
+        try {
+            UUID uuid = UUID.fromString(memoId);
+            Memo memo = memoRepository.findById(uuid)
+                    .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_MEMO));
+            User user = userService.getUserByName(dto.author());
+            memo.updateInfo(dto.title(), dto.content(), dto.category(), dto.subCategory(), dto.color(), user);
 
-        return CommonSuccessDto.fromEntity(true);
+            return CommonSuccessDto.fromEntity(true);
+        } catch (IllegalArgumentException exception) {
+            throw new CommonException(ErrorCode.INVALID_PARAMETER_FORMAT);
+        }
     }
 
     @Transactional
     public CommonSuccessDto deleteMemo(String memoId) {
-        UUID uuid = UUID.fromString(memoId);
-        Memo memo = memoRepository.findById(uuid)
-            .orElseThrow(() -> new CommonException(ErrorCode.NOT_MATCH_AUTH_CODE));
-        memoRepository.delete(memo);
+        try {
+            UUID uuid = UUID.fromString(memoId);
+            Memo memo = memoRepository.findById(uuid)
+                    .orElseThrow(() -> new CommonException(ErrorCode.NOT_MATCH_AUTH_CODE));
+            memoRepository.delete(memo);
 
-        return CommonSuccessDto.fromEntity(true);
+            return CommonSuccessDto.fromEntity(true);
+        } catch (IllegalArgumentException exception) {
+            throw new CommonException(ErrorCode.INVALID_PARAMETER_FORMAT);
+        }
     }
 
     @Transactional
     public CommonIdResponseDto createMemo(CreateMemoRequestDto dto) {
-        UUID id = UUID.randomUUID();
-        User user = userService.getUserByName(dto.author());
-        Page page = pageService.getPageById(dto.pageId());
-        Memo memo = new Memo(id, dto.category(), dto.subCategory(), dto.title(), dto.color(), dto.content(),
-            page, user);
-        memoRepository.save(memo);
+        try {
+            UUID id = UUID.randomUUID();
+            User user = userService.getUserByName(dto.author());
+            Page page = pageService.getPageById(dto.pageId());
+            Memo memo = new Memo(id, dto.category(), dto.subCategory(), dto.title(), dto.color(), dto.content(),
+                    page, user);
+            memoRepository.save(memo);
 
-        return new CommonIdResponseDto(id);
+            return new CommonIdResponseDto(id);
+        } catch (IllegalArgumentException exception) {
+            throw new CommonException(ErrorCode.INVALID_PARAMETER_FORMAT);
+        }
     }
 
     public GetMemoResponseDto getMemo(String memoId) {
-        UUID uuid = UUID.fromString(memoId);
+        try {
+            UUID uuid = UUID.fromString(memoId);
 
-        Memo memo = memoRepository.findById(uuid)
-            .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_MEMO));
+            Memo memo = memoRepository.findById(uuid)
+                    .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_MEMO));
 
-        return new GetMemoResponseDto(memo.getMemoId(), memo.getTitle(), memo.getContent(),
-            memo.getUsername(), memo.getCategory(), memo.getSubCategory());
+            return new GetMemoResponseDto(memo.getMemoId(), memo.getTitle(), memo.getContent(),
+                    memo.getUsername(), memo.getCategory(), memo.getSubCategory());
+        } catch (IllegalArgumentException exception) {
+            throw new CommonException(ErrorCode.INVALID_PARAMETER_FORMAT);
+        }
     }
 }

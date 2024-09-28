@@ -156,7 +156,7 @@ jobs:
           echo "export ECR_REGISTRY=$ECR_REGISTRY" >> scripts/deploy.sh
           echo "export ECR_REPOSITORY=$ECR_REPOSITORY" >> scripts/deploy.sh
           echo "export IMAGE_TAG=$IMAGE_TAG" >> scripts/deploy.sh
-          echo "docker-compose -f /var/deployment/scripts/docker-compose.yml up -d" >> scripts/deploy.sh
+          echo "docker-compose -f /var/deployment/docker-compose.yml up -d" >> scripts/deploy.sh
           zip -r ${{ github.sha }}.zip .
           aws s3 cp ${{ github.sha }}.zip s3://gooiman-${{ env.ENVIRONMENT }}-deploy-bucket/${{ github.sha }}.zip
           

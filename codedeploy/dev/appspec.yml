@@ -4,6 +4,9 @@ files:
   - source: /
     destination: /var/deployment
     overwrite: yes
+  - source: /compose/docker-compose.yml
+    destination: /var/deployment
+    overwrite: yes
 hooks:
   BeforeInstall:
     - location: scripts/deploy.sh

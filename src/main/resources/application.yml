@@ -13,6 +13,7 @@ spring:
   security:
     secret: ${JWT_SECRET}
     token-validity-time: ${JWT_TOKEN_VALIDITY_TIME}
+    blacklist-validity-time: ${BLACKLIST_VALIDITY_TIME}
 
 springdoc:
   packages-to-scan: dev.gooiman.server

@@ -18,6 +18,7 @@ public enum ErrorCode {
     NOT_FOUND_USER(40402, HttpStatus.NOT_FOUND, "해당 사용자가 존재하지 않습니다."),
     NOT_FOUND_SHARED_URL(40403, HttpStatus.NOT_FOUND, "해당 공유 URL이 존재하지 않습니다."),
     NOT_FOUND_MEMO(40404, HttpStatus.NOT_FOUND, "해당 메모가 존재하지 않습니다"),
+    NOT_FOUND_PAGE(40405, HttpStatus.NOT_FOUND, "해당 페이지가 존재하지 않습니다"),
 
 
     // Invalid Argument Error

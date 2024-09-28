@@ -5,6 +5,7 @@ import dev.gooiman.server.memo.application.dto.MemoDto;
 import dev.gooiman.server.common.dto.CommonSuccessDto;
 import dev.gooiman.server.common.exception.CommonException;
 import dev.gooiman.server.common.exception.ErrorCode;
+import dev.gooiman.server.common.dto.CommonSuccessDto;
 import dev.gooiman.server.memo.application.dto.UpdateMemoRequestDto;
 import dev.gooiman.server.memo.repository.MemoRepository;
 import dev.gooiman.server.memo.repository.entity.Memo;

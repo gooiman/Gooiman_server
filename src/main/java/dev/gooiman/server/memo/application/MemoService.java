@@ -12,10 +12,8 @@ import dev.gooiman.server.memo.application.dto.UpdateMemoRequestDto;
 import dev.gooiman.server.memo.repository.MemoRepository;
 import dev.gooiman.server.memo.repository.entity.Memo;
 import dev.gooiman.server.page.application.PageService;
-import dev.gooiman.server.page.repository.PageRepository;
 import dev.gooiman.server.page.repository.entity.Page;
 import dev.gooiman.server.user.application.UserService;
-import dev.gooiman.server.user.repository.UserRepository;
 import dev.gooiman.server.user.repository.entity.User;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
@@ -31,8 +29,6 @@ public class MemoService {
     private final MemoRepository memoRepository;
     private final UserService userService;
     private final PageService pageService;
-    private final UserRepository userRepository;
-    private final PageRepository pageRepository;
 
     public MemoDto[] listMemo(UUID pageId, String category) {
         if (category != null) {

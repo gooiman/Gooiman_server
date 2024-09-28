@@ -28,6 +28,7 @@ public class Page {
 
     private String pageName;
 
-//    @OneToMany(mappedBy = "page")
-//    private List<Memo> memoList = new ArrayList<>();
+    public Page(String pageName) {
+        this.pageName = pageName;
+    }
 }

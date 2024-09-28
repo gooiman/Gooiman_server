@@ -1,9 +1,10 @@
 package dev.gooiman.server.page.controller;
 
+import dev.gooiman.server.common.dto.CommonIdResponseDto;
 import dev.gooiman.server.common.dto.ResponseDto;
 import dev.gooiman.server.memo.application.dto.MemoSummariesResponseDto;
 import dev.gooiman.server.page.application.PageService;
-import dev.gooiman.server.page.application.dto.CreatePageResponseDto;
+import dev.gooiman.server.page.application.dto.CreatePageRequestDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import java.util.UUID;
@@ -25,10 +26,9 @@ public class PageController {
 
     @PutMapping
     @Operation(summary = "페이지 생성", description = "페이지를 생성합니다.")
-    public ResponseDto createPage(
-        @RequestBody CreatePageResponseDto createPageDto) {
-        CreatePageResponseDto.Res res = pageService.create(createPageDto);
-        return ResponseDto.ok(res);
+    public ResponseDto<CommonIdResponseDto> createPage(
+        @RequestBody CreatePageRequestDto createPageDto) {
+        return ResponseDto.ok(pageService.create(createPageDto));
     }
 
     @GetMapping("/{pageId}")

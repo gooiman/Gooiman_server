@@ -1,17 +1,17 @@
 package dev.gooiman.server.page.application;
 
+import dev.gooiman.server.common.dto.CommonIdResponseDto;
 import dev.gooiman.server.common.exception.CommonException;
 import dev.gooiman.server.common.exception.ErrorCode;
 import dev.gooiman.server.memo.application.dto.MemoSummariesResponseDto;
 import dev.gooiman.server.memo.repository.MemoRepository;
-import dev.gooiman.server.page.application.dto.CreatePageResponseDto;
+import dev.gooiman.server.page.application.dto.CreatePageRequestDto;
 import dev.gooiman.server.page.repository.PageRepository;
 import dev.gooiman.server.page.repository.entity.Page;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -30,17 +30,16 @@ public class PageService {
     }
 
     @Transactional
-    public CreatePageResponseDto.Res create(CreatePageResponseDto createPageDto) {
-        String name = createPageDto.getName();
-        Page page = Page.builder().pageName(name).build();
+    public CommonIdResponseDto create(CreatePageRequestDto dto) {
+        Page page = new Page(dto.name());
         Page savedPage = pageRepository.save(page);
-        return CreatePageResponseDto.Res.mapEntityToDto(savedPage);
+        return new CommonIdResponseDto(savedPage.getPageId());
     }
 
     public MemoSummariesResponseDto.Res memoSummaries(UUID pageId) {
-        Optional<Page> page = pageRepository.findById(pageId);
-        Page pageEntity = page.get();
-        String pageName = pageEntity.getPageName();
+        Page page = getPageById(pageId);
+        String name = page.getPageName();
+
         Map<String, Map<String, List<String>>> memoSummaries = new HashMap<>();
         List<Object[]> result = memoRepository.getMemoSummaries(pageId);
         for (Object[] row : result) {
@@ -49,10 +48,10 @@ public class PageService {
             String subCategory = (String) row[2];
 
             memoSummaries.computeIfAbsent(category, k -> new HashMap<>())
-                    .computeIfAbsent(subCategory, k -> new ArrayList<>())
-                    .add(title);
+                .computeIfAbsent(subCategory, k -> new ArrayList<>())
+                .add(title);
         }
-        return new MemoSummariesResponseDto.Res(pageName, memoSummaries);
+        return new MemoSummariesResponseDto.Res(name, memoSummaries);
     }
 
 }

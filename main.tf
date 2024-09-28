@@ -106,7 +106,7 @@ resource "aws_security_group" "rds_sg" {
 
 # DB 서브넷 그룹
 resource "aws_db_subnet_group" "db_subnet" {
-  name = "db_subnet_group"
+  name = "db_subnet_group_${var.environment}"
   subnet_ids = [aws_subnet.gooiman_private_1.id, aws_subnet.gooiman_private_2.id]
 }
 
@@ -129,13 +129,13 @@ resource "aws_db_instance" "db" {
 
 # EC2 인스턴스 프로필
 resource "aws_iam_instance_profile" "ec2_profile" {
-  name = "ec2_profile"
+  name = "ec2_profile_${var.environment}"
   role = aws_iam_role.ec2_role.name
 }
 
 # EC2 IAM 역할
 resource "aws_iam_role" "ec2_role" {
-  name = "ec2_role"
+  name = "ec2_role_${var.environment}"
 
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
@@ -153,7 +153,7 @@ resource "aws_iam_role" "ec2_role" {
 
 # ECR 접근 정책
 resource "aws_iam_role_policy" "ecr_access_policy" {
-  name = "ecr_access_policy"
+  name = "ecr_access_policy_${var.environment}"
   role = aws_iam_role.ec2_role.id
 
   policy = jsonencode({
@@ -175,7 +175,7 @@ resource "aws_iam_role_policy" "ecr_access_policy" {
 
 # S3 접근 정책
 resource "aws_iam_role_policy" "s3_access_policy" {
-  name = "s3_access_policy"
+  name = "s3_access_policy_${var.environment}"
   role = aws_iam_role.ec2_role.id
 
   policy = jsonencode({
@@ -198,6 +198,7 @@ resource "aws_iam_role_policy" "s3_access_policy" {
 
 # EC2 인스턴스 보안 그룹
 resource "aws_security_group" "ec2_sg" {
+  name   = "ec2_sg_${var.environment}"
   vpc_id = aws_vpc.gooiman.id
 
   ingress {
@@ -317,7 +318,7 @@ resource "aws_codedeploy_deployment_group" "deployment" {
 
 # IAM 역할 - CodeDeploy를 위한 역할
 resource "aws_iam_role" "codedeploy_role" {
-  name = "CodeDeployRole"
+  name = "CodeDeployRole_${var.environment}"
 
   assume_role_policy = <<EOF
 {

@@ -55,10 +55,10 @@ INSERT INTO memo (memo_id, category, sub_category, title, content, page_id, user
 VALUES (UUID_TO_BIN('24a4aea3-eb63-475c-b9e3-212d58986980'), 'category1', 'sub_category1', 'title1',
         'content1.', UUID_TO_BIN('dbdfa00c-4292-48c2-92b4-97c643e6dd5a'),
         UUID_TO_BIN('382afa8a-79d2-4fe8-9f61-2c4db816ee3a')),
-       (UUID_TO_BIN('4bb960d6-4dc1-4b31-a3c7-333c5bd589d2'), 'category1', 'sub_category2', 'title2',
+       (UUID_TO_BIN('4bb960d6-4dc1-4b31-a3c7-333c5bd589d2'), 'category2', 'sub_category2', 'title2',
         'content2', UUID_TO_BIN('dbdfa00c-4292-48c2-92b4-97c643e6dd5a'),
         UUID_TO_BIN('382afa8a-79d2-4fe8-9f61-2c4db816ee3a')),
-       (UUID_TO_BIN('cfda99e4-2d9f-4188-9498-4dea0bdb9011'), 'category1', 'sub_category3', 'title3',
+       (UUID_TO_BIN('cfda99e4-2d9f-4188-9498-4dea0bdb9011'), 'category3', 'sub_category3', 'title3',
         '3', UUID_TO_BIN('dbdfa00c-4292-48c2-92b4-97c643e6dd5a'),
         UUID_TO_BIN('382afa8a-79d2-4fe8-9f61-2c4db816ee3a'));
 

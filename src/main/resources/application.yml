@@ -10,3 +10,6 @@ spring:
     hibernate:
       ddl-auto: update
     show-sql: true
+  security:
+    secret: ${JWT_SECRET}
+    token-validity-time: ${JWT_TOKEN_VALIDITY_TIME}

@@ -1,5 +1,6 @@
 package dev.gooiman.server.page.repository.entity;
 
+import dev.gooiman.server.common.repository.entity.BaseTimeEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -18,7 +19,7 @@ import org.hibernate.annotations.GenericGenerator;
 @Builder
 @Entity
 @Table(name = "page")
-public class Page {
+public class Page extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(generator = "uuid2")

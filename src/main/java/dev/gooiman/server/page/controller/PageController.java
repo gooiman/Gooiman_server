@@ -5,6 +5,7 @@ import dev.gooiman.server.common.dto.ResponseDto;
 import dev.gooiman.server.memo.application.dto.MemoSummariesResponseDto;
 import dev.gooiman.server.page.application.PageService;
 import dev.gooiman.server.page.application.dto.CreatePageRequestDto;
+import dev.gooiman.server.page.application.dto.GetPageUpdatedTimeResponseDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirements;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -38,5 +39,11 @@ public class PageController {
     public ResponseDto<MemoSummariesResponseDto> getPageSummaries(@PathVariable UUID pageId) {
         MemoSummariesResponseDto res = pageService.memoSummaries(pageId);
         return ResponseDto.ok(res);
+    }
+
+    @GetMapping("/{pageId}/last-updated")
+    public ResponseDto<GetPageUpdatedTimeResponseDto> getLastUpdatedTime(
+        @PathVariable("pageId") UUID pageId) {
+        return ResponseDto.ok(pageService.getLastUpdatedPage(pageId));
     }
 }

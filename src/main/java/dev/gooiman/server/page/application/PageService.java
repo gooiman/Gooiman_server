@@ -7,8 +7,10 @@ import dev.gooiman.server.memo.application.dto.MemoSummariesResponseDto;
 import dev.gooiman.server.memo.repository.MemoRepository;
 import dev.gooiman.server.memo.repository.view.MemoSummariesView;
 import dev.gooiman.server.page.application.dto.CreatePageRequestDto;
+import dev.gooiman.server.page.application.dto.GetPageUpdatedTimeResponseDto;
 import dev.gooiman.server.page.repository.PageRepository;
 import dev.gooiman.server.page.repository.entity.Page;
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -46,5 +48,11 @@ public class PageService {
                     Collectors.groupingBy(MemoSummariesView::getSubCategory,
                         Collectors.mapping(MemoSummariesView::getTitle, Collectors.toList()))));
         return new MemoSummariesResponseDto(name, memoSummaries);
+    }
+
+    public GetPageUpdatedTimeResponseDto getLastUpdatedPage(UUID pageId) {
+        Page page = getPageById(pageId);
+        Timestamp lastUpdated = page.getLastUpdated();
+        return new GetPageUpdatedTimeResponseDto(lastUpdated);
     }
 }

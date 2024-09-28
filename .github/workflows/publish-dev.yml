@@ -60,7 +60,7 @@ jobs:
           path: build/libs/*.jar
   docker-build:
     name: 'Docker 이미지 빌드'
-    needs: [apply-terraform, build-server]
+    needs: [ apply-terraform, build-server ]
     runs-on: ubuntu-latest
     steps:
       - name: 레포지토리 체크아웃
@@ -79,6 +79,9 @@ jobs:
           --build-arg DATABASE_ADDRESS=${{ needs.apply-terraform.outputs.rds_endpoint }} \
           --build-arg DATABASE_USERNAME=${{ secrets.DEV_DATABASE_USER }} \
           --build-arg DATABASE_PASSWORD=${{ secrets.DEV_DATABASE_PASSWORD }} \
+          --build-arg JWT_SECRET=${{ secrets.JWT_SECRET }} \
+          --build-arg JWT_TOKEN_VALIDITY_TIME=${{ secrets.JWT_TOKEN_VALIDITY_TIME }} \
+          --build-arg KEYSTORE_PASSWORD=${{ secrets.KEYSTORE_PASSWORD }} \
           -t gooiman-api:${{ github.sha }} .
 
       - name: 도커 이미지 저장
@@ -92,7 +95,7 @@ jobs:
 
   ecr-push:
     name: 'ECR 푸시'
-    needs: [apply-terraform, docker-build]
+    needs: [ apply-terraform, docker-build ]
     runs-on: ubuntu-latest
     outputs:
       ecr_registry: ${{ steps.login-ecr.outputs.registry }}
@@ -160,7 +163,7 @@ jobs:
           echo "docker-compose -f /var/deployment/docker-compose.yml up -d" >> scripts/deploy.sh
           zip -r ${{ github.sha }}.zip .
           aws s3 cp ${{ github.sha }}.zip s3://gooiman-${{ env.ENVIRONMENT }}-deploy-bucket/${{ github.sha }}.zip
-          
+
 
       - name: CodeDeploy 배포 생성
         run: |

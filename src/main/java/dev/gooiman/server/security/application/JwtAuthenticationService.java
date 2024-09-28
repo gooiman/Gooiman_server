@@ -24,7 +24,7 @@ public class JwtAuthenticationService {
     private String secret;
 
     @Value("${spring.security.token-validity-time}")
-    private static int validityTime;
+    private int validityTime;
 
     @PostConstruct
     public void init() {
@@ -40,13 +40,13 @@ public class JwtAuthenticationService {
 
     private String getAccessToken(UUID memberId) {
         long now = (new Date()).getTime();
-        Date accessTokenValidity = new Date(now + validityTime);
+        Date tokenExpirationDate = new Date(now + validityTime);
 
         return Jwts.builder()
             .signWith(key)
             .subject(String.valueOf(memberId))
-            .expiration(accessTokenValidity)
-            .issuedAt(new Date())
+            .expiration(tokenExpirationDate)
+            .issuedAt(new Date(now))
             .compact();
     }
 }

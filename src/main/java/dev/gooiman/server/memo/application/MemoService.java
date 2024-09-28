@@ -1,11 +1,13 @@
 package dev.gooiman.server.memo.application;
 
 
-import dev.gooiman.server.common.dto.CommonIdResponseDto;
+import dev.gooiman.server.memo.application.dto.MemoDto;
 import dev.gooiman.server.common.dto.CommonSuccessDto;
+import dev.gooiman.server.common.dto.CommonIdResponseDto;
 import dev.gooiman.server.common.exception.CommonException;
 import dev.gooiman.server.common.exception.ErrorCode;
 import dev.gooiman.server.memo.application.dto.CreateMemoRequestDto;
+import dev.gooiman.server.memo.application.dto.GetMemoResponseDto;
 import dev.gooiman.server.memo.application.dto.UpdateMemoRequestDto;
 import dev.gooiman.server.memo.repository.MemoRepository;
 import dev.gooiman.server.memo.repository.entity.Memo;
@@ -31,6 +33,19 @@ public class MemoService {
     private final PageService pageService;
     private final UserRepository userRepository;
     private final PageRepository pageRepository;
+
+    public MemoDto[] listMemo(UUID pageId, String category) {
+        if(category != null) {
+            return memoRepository.findMemosByPage_PageIdAndCategory(pageId, category)
+                .stream()
+                .map(MemoDto::fromEntity)
+                .toArray(MemoDto[]::new);
+        }
+        return memoRepository.findMemosByPage_PageId(pageId)
+            .stream()
+            .map(MemoDto::fromEntity)
+            .toArray(MemoDto[]::new);
+    }
 
 //    public CreateMemoResponseDto.Res create(CreateMemoResponseDto createMemoDto)
 //        throws BaseException {
@@ -68,9 +83,9 @@ public class MemoService {
     public CommonSuccessDto updateMemo(String memoId, @RequestBody UpdateMemoRequestDto dto) {
         UUID uuid = UUID.fromString(memoId);
         Memo memo = memoRepository.findById(uuid)
-            .orElseThrow(() -> new CommonException(ErrorCode.NOT_MATCH_AUTH_CODE));
+            .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_MEMO));
         User user = userService.getUserByName(dto.author());
-        memo.updateInfo(dto.title(), dto.content(), dto.category(), dto.subCategory(), user);
+        memo.updateInfo(dto.title(), dto.content(), dto.category(), dto.subCategory(), dto.color(), user);
 
         return CommonSuccessDto.fromEntity(true);
     }
@@ -88,16 +103,22 @@ public class MemoService {
     @Transactional
     public CommonIdResponseDto createMemo(CreateMemoRequestDto dto) {
         UUID id = UUID.randomUUID();
-
         User user = userService.getUserByName(dto.author());
         Page page = pageService.getPageById(dto.pageId());
-        Memo memo = new Memo(id, dto.category(), dto.subCategory(), dto.title(), dto.content(),
+        Memo memo = new Memo(id, dto.category(), dto.subCategory(), dto.title(), dto.color(), dto.content(),
             page, user);
         memoRepository.save(memo);
 
         return new CommonIdResponseDto(id);
     }
+
+    public GetMemoResponseDto getMemo(String memoId) {
+        UUID uuid = UUID.fromString(memoId);
+
+        Memo memo = memoRepository.findById(uuid)
+            .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_MEMO));
+
+        return new GetMemoResponseDto(memo.getMemoId(), memo.getTitle(), memo.getContent(),
+            memo.getUsername(), memo.getCategory(), memo.getSubCategory());
+    }
 }
-
-
-

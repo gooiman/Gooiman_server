@@ -8,7 +8,7 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public class MemoSummariseResponseDto {
+public class MemoSummariesResponseDto {
 
 
     @Getter
@@ -17,6 +17,6 @@ public class MemoSummariseResponseDto {
     public static class Res {
 
         private String name;
-        private Map<String, Map<String, List<String>>> memoSummarise;
+        private Map<String, Map<String, List<String>>> memoSummaries;
     }
 }

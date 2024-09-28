@@ -221,6 +221,17 @@ resource "aws_security_group" "ec2_sg" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
+  // 개발 환경 8080 포트 허용
+  dynamic "ingress" {
+    for_each = (var.environment == "dev") ? [1] : []
+    content {
+      from_port         = 8080
+      to_port           = 8080
+      protocol          = "tcp"
+      cidr_blocks       = ["0.0.0.0/0"]
+    }
+  }
+
   egress {
     from_port = 0
     to_port   = 0
@@ -248,7 +259,7 @@ resource "aws_instance" "gooiman_api" {
     usermod -a -G docker ec2-user
 
     # Docker Compose 설치
-    sudo curl -L "https://github.com/docker/compose/releases/download/2.29.7/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+    sudo curl -L "https://github.com/docker/compose/releases/download/v2.29.7/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
     sudo chmod +x /usr/local/bin/docker-compose
 
     # CodeDeploy 에이전트 설치

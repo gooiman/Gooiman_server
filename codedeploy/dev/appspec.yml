@@ -5,7 +5,7 @@ files:
     destination: /var/deployment
     overwrite: yes
 hooks:
-  BeforeInstall:
+  AfterInstall:
     - location: scripts/deploy.sh
       timeout: 300
       runas: root

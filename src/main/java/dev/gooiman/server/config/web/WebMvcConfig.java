@@ -1,8 +1,10 @@
 package dev.gooiman.server.config.web;
 
+import dev.gooiman.server.security.resolver.JwtAuthorizationArgumentResolver;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
@@ -11,12 +13,10 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @RequiredArgsConstructor
 public class WebMvcConfig implements WebMvcConfigurer {
 
+    private final JwtAuthorizationArgumentResolver jwtAuthorizationArgumentResolver;
+
     @Override
-    public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("/**")
-            .allowCredentials(true)
-            .allowedOrigins("http://localhost:3000", "http://localhost:3000")
-            .allowedMethods("GET", "PUT", "POST", "DELETE", "PATCH", "OPTIONS")
-            .allowedHeaders("*");
+    public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
+        resolvers.add(jwtAuthorizationArgumentResolver);
     }
 }

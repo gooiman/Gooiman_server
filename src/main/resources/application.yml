@@ -2,9 +2,9 @@ spring:
   application:
     name: gooiman-server
   datasource:
-    url: "jdbc:mysql://db.gooiman.internal:3306/gooiman?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&maxReconnects=10"
-    username: root
-    password: test
+    url: "jdbc:mysql://${DATABASE_ADDRESS}:3306/gooiman?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&maxReconnects=10"
+    username: ${DATABASE_USERNAME}
+    password: ${DATABASE_PASSWORD}
   jpa:
     generate-ddl: true
     hibernate:

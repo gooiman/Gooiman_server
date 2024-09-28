@@ -69,6 +69,10 @@ jobs:
     name: 'ECR 푸시'
     needs: [apply-terraform, docker-build]
     runs-on: ubuntu-latest
+    outputs:
+      ecr_registry: ${{ steps.login-ecr.outputs.registry }}
+      ecr_repository: gooiman_${{ env.ENVIRONMENT }}
+      image_tag: ${{ github.sha }}
     steps:
       - name: 레포지토리 체크아웃
         uses: actions/checkout@v4
@@ -116,12 +120,21 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ap-northeast-2
       - name: 배포 파일 업로드
+        env:
+          ECR_REGISTRY: ${{ needs.ecr-push.outputs.ecr_registry }}
+          ECR_REPOSITORY: ${{ needs.ecr-push.outputs.ecr_repository }}
+          IMAGE_TAG: ${{ needs.ecr-push.outputs.image_tag }}
         run: |
           cd ./codedeploy/${{ env.ENVIRONMENT }}
+          mkdir scripts
+          touch scripts/deploy.sh
+          echo "aws ecr get-login-password --region ap-northeast-2 | docker login --username AWS --password-stdin $ECR_REGISTRY" >> scripts/deploy.sh
+          echo "docker pull $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >> scripts/deploy.sh
+          echo "docker run -p 8080:8080 -e PROFILE=dev -d --restart always --name gooiman-api $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >> scripts/deploy.sh
           zip -r ${{ github.sha }}.zip .
           aws s3 rm s3://gooiman-${{ env.ENVIRONMENT }}-deploy-bucket/ --recursive --include "*.zip" 
           aws s3 cp ${{ github.sha }}.zip s3://gooiman-${{ env.ENVIRONMENT }}-deploy-bucket/${{ github.sha }}.zip
-        
+          
 
       - name: CodeDeploy 배포 생성
         run: |

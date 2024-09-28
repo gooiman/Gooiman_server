@@ -2,10 +2,8 @@ package dev.gooiman.server.page.application;
 
 import dev.gooiman.server.common.exception.CommonException;
 import dev.gooiman.server.common.exception.ErrorCode;
-import dev.gooiman.server.common.exception.BaseException;
 import dev.gooiman.server.memo.application.dto.MemoSummariseResponseDto;
 import dev.gooiman.server.memo.repository.MemoRepository;
-import dev.gooiman.server.memo.repository.entity.Memo;
 import dev.gooiman.server.page.application.dto.CreatePageResponseDto;
 import dev.gooiman.server.page.repository.PageRepository;
 import dev.gooiman.server.page.repository.entity.Page;

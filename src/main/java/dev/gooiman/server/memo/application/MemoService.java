@@ -52,7 +52,7 @@ public class MemoService {
     public CommonSuccessDto updateMemo(UUID memoId, @RequestBody UpdateMemoRequestDto dto) {
         Memo memo = findMemo(memoId);
         User user = userService.getUserByName(dto.author());
-        if (!user.equals(memo.getUser())) {
+        if (!user.getUserId().equals(memo.getUserID())) {
             throw new CommonException(ErrorCode.NOT_MATCH_USER);
         }
 

@@ -2,11 +2,13 @@ package dev.gooiman.server.memo.application;
 
 
 import dev.gooiman.server.common.dto.CommonSuccessDto;
+import dev.gooiman.server.common.exception.CommonException;
+import dev.gooiman.server.common.exception.ErrorCode;
 import dev.gooiman.server.memo.application.dto.UpdateMemoRequestDto;
 import dev.gooiman.server.memo.repository.MemoRepository;
 import dev.gooiman.server.memo.repository.entity.Memo;
 import dev.gooiman.server.page.repository.PageRepository;
-import dev.gooiman.server.user.UserService;
+import dev.gooiman.server.user.application.UserService;
 import dev.gooiman.server.user.repository.UserRepository;
 import dev.gooiman.server.user.repository.entity.User;
 import java.util.UUID;
@@ -60,7 +62,8 @@ public class MemoService {
     @Transactional
     public CommonSuccessDto updateMemo(String memoId, @RequestBody UpdateMemoRequestDto dto) {
         UUID uuid = UUID.fromString(memoId);
-        Memo memo = memoRepository.findById(uuid).orElseThrow(IllegalArgumentException::new);
+        Memo memo = memoRepository.findById(uuid)
+            .orElseThrow(() -> new CommonException(ErrorCode.NOT_MATCH_AUTH_CODE));
         User user = userService.getUserByName(dto.author());
         memo.updateInfo(dto.title(), dto.content(), dto.category(), dto.subCategory(), user);
 

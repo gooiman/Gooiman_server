@@ -1,5 +1,7 @@
-package dev.gooiman.server.user;
+package dev.gooiman.server.user.application;
 
+import dev.gooiman.server.common.exception.CommonException;
+import dev.gooiman.server.common.exception.ErrorCode;
 import dev.gooiman.server.user.repository.UserRepository;
 import dev.gooiman.server.user.repository.entity.User;
 import lombok.RequiredArgsConstructor;
@@ -14,6 +16,7 @@ public class UserService {
     private final UserRepository userRepository;
 
     public User getUserByName(String name) {
-        return userRepository.findByName(name).orElseThrow(IllegalArgumentException::new);
+        return userRepository.findByName(name)
+            .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_USER));
     }
 }

@@ -76,6 +76,16 @@ public class MemoService {
     }
 
     @Transactional
+    public CommonSuccessDto deleteMemo(String memoId) {
+        UUID uuid = UUID.fromString(memoId);
+        Memo memo = memoRepository.findById(uuid)
+            .orElseThrow(() -> new CommonException(ErrorCode.NOT_MATCH_AUTH_CODE));
+        memoRepository.delete(memo);
+
+        return CommonSuccessDto.fromEntity(true);
+    }
+
+    @Transactional
     public CommonIdResponseDto createMemo(CreateMemoRequestDto dto) {
         UUID id = UUID.randomUUID();
 

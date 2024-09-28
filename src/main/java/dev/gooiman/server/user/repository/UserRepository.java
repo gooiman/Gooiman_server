@@ -15,4 +15,5 @@ public interface UserRepository extends JpaRepository<User, UUID> {
         + " where u.name=:name")
     Optional<User> findByName(@Param("name") String name);
 //    Optional<User> findByPageAndName(String pageId, String name);
+    Optional<User> findByNameAndPage_PageId(String name,UUID pageId);
 }

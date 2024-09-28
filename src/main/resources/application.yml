@@ -13,4 +13,4 @@ logging:
   level:
     com:
       zaxxer:
-        hikari=DEBUG:
+        hikari: DEBUG

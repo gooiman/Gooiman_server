@@ -333,3 +333,8 @@ resource "aws_iam_role_policy_attachment" "codedeploy_role_policy" {
   role       = aws_iam_role.codedeploy_role.name
   policy_arn = "arn:aws:iam::aws:policy/service-role/AWSCodeDeployRole"
 }
+
+# RDS 엔드포인트 출력
+output "rds_endpoint" {
+  value = aws_db_instance.db.address
+}

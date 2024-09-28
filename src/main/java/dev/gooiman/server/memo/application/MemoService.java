@@ -1,8 +1,9 @@
 package dev.gooiman.server.memo.application;
 
 
-import dev.gooiman.server.common.dto.CommonIdResponseDto;
+import dev.gooiman.server.memo.application.dto.MemoDto;
 import dev.gooiman.server.common.dto.CommonSuccessDto;
+import dev.gooiman.server.common.dto.CommonIdResponseDto;
 import dev.gooiman.server.common.exception.CommonException;
 import dev.gooiman.server.common.exception.ErrorCode;
 import dev.gooiman.server.memo.application.dto.CreateMemoRequestDto;
@@ -31,6 +32,19 @@ public class MemoService {
     private final PageService pageService;
     private final UserRepository userRepository;
     private final PageRepository pageRepository;
+
+    public MemoDto[] listMemo(UUID pageId, String category) {
+        if(category != null) {
+            return memoRepository.findMemosByPage_PageIdAndCategory(pageId, category)
+                .stream()
+                .map(MemoDto::fromEntity)
+                .toArray(MemoDto[]::new);
+        }
+        return memoRepository.findMemosByPage_PageId(pageId)
+            .stream()
+            .map(MemoDto::fromEntity)
+            .toArray(MemoDto[]::new);
+    }
 
 //    public CreateMemoResponseDto.Res create(CreateMemoResponseDto createMemoDto)
 //        throws BaseException {

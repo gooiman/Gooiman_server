@@ -17,6 +17,6 @@ public interface MemoRepository extends JpaRepository<Memo, UUID> {
   List<Memo> findMemosByPage_PageId(UUID pageId);
 
   @Query("select m.title, m.category, m.subCategory from Memo m where m.page.pageId = :pageId")
-  List<Object[]> getMemoSummarise(@Param("pageId") UUID pageId);
+  List<Object[]> getMemoSummaries(@Param("pageId") UUID pageId);
 
 }

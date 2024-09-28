@@ -30,6 +30,11 @@ public class MemoService {
     private final UserService userService;
     private final PageService pageService;
 
+    public Memo findMemo(UUID memoId) {
+        return memoRepository.findById(memoId)
+            .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_MEMO));
+    }
+
     public MemoDto[] listMemo(UUID pageId, String category) {
         if (category != null) {
             return memoRepository.findMemosByPage_PageIdAndCategory(pageId, category)
@@ -45,8 +50,7 @@ public class MemoService {
 
     @Transactional
     public CommonSuccessDto updateMemo(UUID memoId, @RequestBody UpdateMemoRequestDto dto) {
-        Memo memo = memoRepository.findById(memoId)
-            .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_MEMO));
+        Memo memo = findMemo(memoId);
         User user = userService.getUserByName(dto.author());
         memo.updateInfo(dto.title(), dto.content(), dto.category(), dto.subCategory(), dto.color(),
             user);
@@ -56,8 +60,7 @@ public class MemoService {
 
     @Transactional
     public CommonSuccessDto deleteMemo(UUID memoId) {
-        Memo memo = memoRepository.findById(memoId)
-            .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_MEMO));
+        Memo memo = findMemo(memoId);
         memoRepository.delete(memo);
 
         return CommonSuccessDto.fromEntity(true);
@@ -75,8 +78,7 @@ public class MemoService {
     }
 
     public GetMemoResponseDto getMemo(UUID memoId) {
-        Memo memo = memoRepository.findById(memoId)
-            .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_MEMO));
+        Memo memo = findMemo(memoId);
 
         return new GetMemoResponseDto(memo.getMemoId(), memo.getTitle(), memo.getContent(),
             memo.getUsername(), memo.getCategory(), memo.getSubCategory());

@@ -2,12 +2,10 @@ package dev.gooiman.server.memo.application.dto;
 
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
-import java.util.List;
-import java.util.Map;
+import dev.gooiman.server.memo.application.domain.MemoSummaryList;
 
 
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
-public record MemoSummariesResponseDto(String name,
-                                       Map<String, Map<String, List<String>>> memoSummaries) {
+public record MemoSummariesResponseDto(String name, MemoSummaryList memoSummaries) {
 
 }

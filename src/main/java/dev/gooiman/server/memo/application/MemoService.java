@@ -30,7 +30,16 @@ public class MemoService {
     private final PageRepository pageRepository;
 
     public MemoDto[] listMemo(UUID pageId, String category) {
-        return null;
+        if(category != null) {
+            return memoRepository.findMemosByPage_PageIdAndCategory(pageId, category)
+                .stream()
+                .map(MemoDto::fromEntity)
+                .toArray(MemoDto[]::new);
+        }
+        return memoRepository.findMemosByPage_PageId(pageId)
+            .stream()
+            .map(MemoDto::fromEntity)
+            .toArray(MemoDto[]::new);
     }
 
 //    public CreateMemoResponseDto.Res create(CreateMemoResponseDto createMemoDto)

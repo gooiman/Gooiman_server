@@ -229,6 +229,16 @@ resource "aws_security_group" "ec2_sg" {
   }
 }
 
+# DEV 환경 포트 접근
+resource "aws_security_group_rule" "dev_access" {
+  security_group_id = aws_security_group.ec2_sg.id
+  count = var.environment == "dev" ? 1 : 0
+  type              = "ingress"
+  from_port         = 8080
+  to_port           = 8080
+  protocol          = "tcp"
+}
+
 # EC2 인스턴스
 resource "aws_instance" "gooiman_api" {
   depends_on = [aws_db_instance.db]

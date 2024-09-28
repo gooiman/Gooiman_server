@@ -1,22 +1,13 @@
 package dev.gooiman.server.memo.application.dto;
 
+import com.fasterxml.jackson.databind.PropertyNamingStrategies;
+import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import java.util.List;
 import java.util.Map;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-
-@Getter
-@AllArgsConstructor
-public class MemoSummariesResponseDto {
 
 
-    @Getter
-    @AllArgsConstructor
-    @Builder
-    public static class Res {
+@JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
+public record MemoSummariesResponseDto(String name,
+                                       Map<String, Map<String, List<String>>> memoSummaries) {
 
-        private String name;
-        private Map<String, Map<String, List<String>>> memoSummaries;
-    }
 }

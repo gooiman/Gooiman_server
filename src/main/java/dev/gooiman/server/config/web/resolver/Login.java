@@ -1,4 +1,4 @@
-package dev.gooiman.server.security.resolver;
+package dev.gooiman.server.config.web.resolver;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

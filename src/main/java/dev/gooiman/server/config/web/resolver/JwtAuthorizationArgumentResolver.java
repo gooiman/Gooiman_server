@@ -1,4 +1,4 @@
-package dev.gooiman.server.security.resolver;
+package dev.gooiman.server.config.web.resolver;
 
 import dev.gooiman.server.security.repository.entity.CustomUserDetails;
 import lombok.NonNull;

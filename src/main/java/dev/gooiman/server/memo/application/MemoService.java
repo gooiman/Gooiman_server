@@ -4,7 +4,6 @@ package dev.gooiman.server.memo.application;
 import dev.gooiman.server.memo.application.dto.MemoDto;
 import dev.gooiman.server.common.dto.CommonSuccessDto;
 import dev.gooiman.server.common.dto.CommonIdResponseDto;
-import dev.gooiman.server.common.dto.CommonSuccessDto;
 import dev.gooiman.server.common.exception.CommonException;
 import dev.gooiman.server.common.exception.ErrorCode;
 import dev.gooiman.server.memo.application.dto.CreateMemoRequestDto;

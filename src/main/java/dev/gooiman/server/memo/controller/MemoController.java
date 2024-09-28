@@ -1,6 +1,5 @@
 package dev.gooiman.server.memo.controller;
 
-import dev.gooiman.server.common.dto.ResponseDto;
 import dev.gooiman.server.common.dto.CommonIdResponseDto;
 import dev.gooiman.server.common.dto.CommonSuccessDto;
 import dev.gooiman.server.common.dto.ResponseDto;
@@ -8,6 +7,7 @@ import dev.gooiman.server.memo.application.MemoService;
 import dev.gooiman.server.memo.application.dto.MemoDto;
 import java.util.UUID;
 import dev.gooiman.server.memo.application.dto.CreateMemoRequestDto;
+import dev.gooiman.server.memo.application.dto.GetMemoResponseDto;
 import dev.gooiman.server.memo.application.dto.UpdateMemoRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -56,6 +56,11 @@ public class MemoController {
     @PutMapping("")
     public ResponseDto<CommonIdResponseDto> createMemo(@RequestBody CreateMemoRequestDto dto) {
         return ResponseDto.created(memoService.createMemo(dto));
+    }
+
+    @GetMapping("/{memoId}")
+    public ResponseDto<GetMemoResponseDto> getMemo(@PathVariable("memoId") String memoId) {
+        return ResponseDto.ok(memoService.getMemo(memoId));
     }
 
     @DeleteMapping("/{memoId}")

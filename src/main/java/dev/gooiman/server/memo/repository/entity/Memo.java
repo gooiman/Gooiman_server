@@ -49,6 +49,10 @@ public class Memo {
     @JoinColumn(name = "USER_ID")
     private User user;
 
+    public String getUsername() {
+        return user.getName();
+    }
+
     public void updateInfo(String title, String content, String category, String subCategory,
         User user) {
         this.title = title;

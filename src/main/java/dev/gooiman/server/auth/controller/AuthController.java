@@ -1,10 +1,11 @@
 package dev.gooiman.server.auth.controller;
 
-import dev.gooiman.server.common.dto.ResponseDto;
 import dev.gooiman.server.auth.application.CustomAuthenticationService;
 import dev.gooiman.server.auth.application.dto.JwtResponseDto;
 import dev.gooiman.server.auth.application.dto.LoginRequestDto;
+import dev.gooiman.server.common.dto.ResponseDto;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirements;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
@@ -24,6 +25,7 @@ public class AuthController {
 
     @PostMapping("/login/{page_id}")
     @Operation(summary = "로그인", description = "로그인을 수행합니다. 만약 한번도 로그인 한 적 없는 name으로 로그인을 시도할 경우 회원가입을 수행합니다.")
+    @SecurityRequirements
     public ResponseDto<JwtResponseDto> signIn(@PathVariable("page_id") UUID pageId,
         @RequestBody LoginRequestDto dto) {
         return ResponseDto.ok(authenticationService.login(pageId, dto));

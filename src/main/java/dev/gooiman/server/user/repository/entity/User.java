@@ -12,6 +12,7 @@ import jakarta.persistence.Table;
 import java.util.UUID;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
@@ -22,6 +23,7 @@ import org.hibernate.annotations.GenericGenerator;
 @Builder
 @Table(name = "users")
 @Entity
+@EqualsAndHashCode(of = {"userId"})
 public class User {
 
     @Id

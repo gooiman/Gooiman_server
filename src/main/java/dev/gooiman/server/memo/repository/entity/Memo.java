@@ -36,6 +36,7 @@ public class Memo {
     private String category;
     private String subCategory;
     private String title;
+    private String color;
 
     @Lob
     @Column(columnDefinition = "TEXT")
@@ -54,11 +55,12 @@ public class Memo {
     }
 
     public void updateInfo(String title, String content, String category, String subCategory,
-        User user) {
+        String color, User user) {
         this.title = title;
         this.content = content;
         this.category = category;
         this.subCategory = subCategory;
+        this.color = color;
         this.user = user;
     }
 }

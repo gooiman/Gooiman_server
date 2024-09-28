@@ -7,7 +7,9 @@ public record CreateMemoRequestDto(@JsonProperty(value = "page_id") String pageI
                                    String title,
                                    String category,
                                    @JsonProperty(value = "sub_category") String subCategory,
-                                   String content) {
+                                   String content,
+                                   String color
+                                   ) {
 
 
 }

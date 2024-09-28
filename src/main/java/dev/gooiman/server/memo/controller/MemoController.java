@@ -33,20 +33,6 @@ public class MemoController {
         return ResponseDto.ok(memoService.listMemo(pageId, category));
     }
 
-//    @PutMapping("/memo")
-//    public ResponseEntity<ResponseDto> createMemo(
-//        @RequestBody CreateMemoResponseDto createMemoDto) {
-//        try {
-//            CreateMemoResponseDto.Res res = memoService.create(createMemoDto);
-//            return ResponseEntity.status(BaseResponseStatus.SUCCESS.getHttpStatus())
-//                .body(new ResponseDto<>(BaseResponseStatus.SUCCESS, res));
-//        } catch (BaseException exception) {
-//            return ResponseEntity.status(exception.getBaseResponseStatus().getHttpStatus().value())
-//                .body(new ResponseDto<>(exception.getBaseResponseStatus()));
-//        }
-//        return null;
-//    }
-
     @PatchMapping("/{memoId}")
     public ResponseDto<CommonSuccessDto> updateMemo(@PathVariable("memoId") String memoId,
         @RequestBody UpdateMemoRequestDto dto) {

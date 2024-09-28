@@ -24,7 +24,7 @@ public class MemoController {
     private final MemoService memoService;
 
 
-    @GetMapping("/")
+    @GetMapping("")
     public ResponseDto<MemoDto[]> listMemo(@RequestParam("page_id") UUID pageId, @RequestParam(required = false) String category) {
         return ResponseDto.ok(memoService.listMemo(pageId, category));
     }

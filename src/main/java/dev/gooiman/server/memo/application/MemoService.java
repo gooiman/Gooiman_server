@@ -51,11 +51,11 @@ public class MemoService {
     @Transactional
     public CommonSuccessDto updateMemo(UUID memoId, @RequestBody UpdateMemoRequestDto dto) {
         Memo memo = findMemo(memoId);
-        User user = userService.getUserByName(dto.author());
-        pageService.updatePageUpdateTime(memo.getPage());
-        if (!user.getUserId().equals(memo.getUserID())) {
+        User user = userService.getUserByNameAndPageId(dto.author(), memo.getPageId());
+        if (!user.getUserId().equals(memo.getUserId())) {
             throw new CommonException(ErrorCode.NOT_MATCH_USER);
         }
+        pageService.updatePageUpdateTime(memo.getPage());
 
         memo.updateInfo(dto.title(), dto.content(), dto.category(), dto.subCategory(), dto.color(),
             user);
@@ -74,7 +74,7 @@ public class MemoService {
 
     @Transactional
     public CommonIdResponseDto createMemo(CreateMemoRequestDto dto) {
-        User user = userService.getUserByName(dto.author());
+        User user = userService.getUserByNameAndPageId(dto.author(), dto.pageId());
         Page page = pageService.getPageById(dto.pageId());
         pageService.updatePageUpdateTime(page);
         Memo memo = new Memo(dto.category(), dto.subCategory(), dto.title(), dto.color(),

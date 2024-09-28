@@ -1,7 +1,7 @@
 package dev.gooiman.server.memo.repository.entity;
 
-import dev.gooiman.server.page.repository.entity.Page;
 import dev.gooiman.server.auth.repository.entity.User;
+import dev.gooiman.server.page.repository.entity.Page;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -51,7 +51,10 @@ public class Memo {
     private User user;
 
     @Column(name = "USER_ID", insertable = false, updatable = false)
-    private UUID userID;
+    private UUID userId;
+
+    @Column(name = "PAGE_ID", insertable = false, updatable = false)
+    private UUID pageId;
 
     public String getUsername() {
         return user.getName();

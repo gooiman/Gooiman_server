@@ -5,9 +5,11 @@ import static dev.gooiman.server.common.exception.ErrorCode.EXPIRED_TOKEN_ERROR;
 import static dev.gooiman.server.common.exception.ErrorCode.INVALID_TOKEN_ERROR;
 import static dev.gooiman.server.common.exception.ErrorCode.TOKEN_UNSUPPORTED_ERROR;
 
-import dev.gooiman.server.common.exception.CommonException;
+import dev.gooiman.server.auth.application.BlackListService;
 import dev.gooiman.server.auth.application.CustomUserDetailsService;
 import dev.gooiman.server.auth.application.domain.CustomUserDetails;
+import dev.gooiman.server.common.exception.CommonException;
+import dev.gooiman.server.common.exception.ErrorCode;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jws;
@@ -31,7 +33,7 @@ import org.springframework.stereotype.Component;
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class JwtAuthenticationProvider implements AuthenticationProvider {
+public class JwtProvider implements AuthenticationProvider {
 
     private static SecretKey key;
 
@@ -39,6 +41,7 @@ public class JwtAuthenticationProvider implements AuthenticationProvider {
     private String secret;
 
     private final CustomUserDetailsService customUserDetailsService;
+    private final BlackListService blackListService;
 
     @PostConstruct
     public void init() {
@@ -57,6 +60,10 @@ public class JwtAuthenticationProvider implements AuthenticationProvider {
                 .verifyWith(key)
                 .build()
                 .parseSignedClaims(token);
+
+            if (blackListService.isExists(token)) {
+                throw new CommonException(ErrorCode.INVALID_TOKEN_ERROR);
+            }
 
             Claims claims = parsedToken.getPayload();
             String userId = claims.getSubject();

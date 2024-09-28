@@ -16,7 +16,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class JwtAuthenticationService {
+public class JwtService {
 
     private static SecretKey key;
 

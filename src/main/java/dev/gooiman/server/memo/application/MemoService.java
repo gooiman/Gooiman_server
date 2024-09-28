@@ -1,9 +1,11 @@
 package dev.gooiman.server.memo.application;
 
 
+import dev.gooiman.server.memo.application.dto.MemoDto;
 import dev.gooiman.server.memo.repository.MemoRepository;
 import dev.gooiman.server.page.repository.PageRepository;
 import dev.gooiman.server.user.repository.UserRepository;
+import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +16,10 @@ public class MemoService {
     private final MemoRepository memoRepository;
     private final UserRepository userRepository;
     private final PageRepository pageRepository;
+
+    public MemoDto[] listMemo(UUID pageId, String category) {
+        return null;
+    }
 
 //    public CreateMemoResponseDto.Res create(CreateMemoResponseDto createMemoDto)
 //        throws BaseException {

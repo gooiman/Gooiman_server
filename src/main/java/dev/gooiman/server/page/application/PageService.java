@@ -3,13 +3,16 @@ package dev.gooiman.server.page.application;
 import dev.gooiman.server.common.dto.CommonIdResponseDto;
 import dev.gooiman.server.common.exception.CommonException;
 import dev.gooiman.server.common.exception.ErrorCode;
-import dev.gooiman.server.memo.application.domain.MemoSummaryList;
 import dev.gooiman.server.memo.application.dto.MemoSummariesResponseDto;
 import dev.gooiman.server.memo.repository.MemoRepository;
+import dev.gooiman.server.memo.repository.view.MemoSummariesView;
 import dev.gooiman.server.page.application.dto.CreatePageRequestDto;
 import dev.gooiman.server.page.repository.PageRepository;
 import dev.gooiman.server.page.repository.entity.Page;
+import java.util.List;
+import java.util.Map;
 import java.util.UUID;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -36,8 +39,12 @@ public class PageService {
     public MemoSummariesResponseDto memoSummaries(UUID pageId) {
         Page page = getPageById(pageId);
         String name = page.getPageName();
-        MemoSummaryList memoList = new MemoSummaryList(memoRepository.getMemoSummaries(pageId));
-
-        return new MemoSummariesResponseDto(name, memoList);
+        Map<String, Map<String, List<String>>> memoSummaries = memoRepository.getMemoSummaries(
+                pageId)
+            .stream().collect(
+                Collectors.groupingBy(MemoSummariesView::getCategory,
+                    Collectors.groupingBy(MemoSummariesView::getSubCategory,
+                        Collectors.mapping(MemoSummariesView::getTitle, Collectors.toList()))));
+        return new MemoSummariesResponseDto(name, memoSummaries);
     }
 }

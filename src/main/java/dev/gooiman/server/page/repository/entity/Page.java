@@ -6,6 +6,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import java.sql.Timestamp;
 import java.util.UUID;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -31,5 +32,9 @@ public class Page extends BaseTimeEntity {
 
     public Page(String pageName) {
         this.pageName = pageName;
+    }
+
+    public void updateTime() {
+        this.updateTime = new Timestamp(System.currentTimeMillis());
     }
 }

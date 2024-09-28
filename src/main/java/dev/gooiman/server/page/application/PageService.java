@@ -10,7 +10,6 @@ import dev.gooiman.server.page.application.dto.CreatePageRequestDto;
 import dev.gooiman.server.page.application.dto.GetPageUpdatedTimeResponseDto;
 import dev.gooiman.server.page.repository.PageRepository;
 import dev.gooiman.server.page.repository.entity.Page;
-import java.sql.Timestamp;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -52,7 +51,10 @@ public class PageService {
 
     public GetPageUpdatedTimeResponseDto getLastUpdatedPage(UUID pageId) {
         Page page = getPageById(pageId);
-        Timestamp lastUpdated = page.getLastUpdated();
-        return new GetPageUpdatedTimeResponseDto(lastUpdated);
+        return new GetPageUpdatedTimeResponseDto(page.getUpdateTime());
+    }
+
+    public void updatePageUpdateTime(Page page) {
+        page.updateTime();
     }
 }

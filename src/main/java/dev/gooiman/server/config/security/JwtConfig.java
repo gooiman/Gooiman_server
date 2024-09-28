@@ -1,7 +1,7 @@
 package dev.gooiman.server.config.security;
 
-import dev.gooiman.server.security.fliter.JwtFilter;
-import dev.gooiman.server.security.provider.JwtAuthenticationProvider;
+import dev.gooiman.server.config.security.fliter.JwtFilter;
+import dev.gooiman.server.config.security.provider.JwtAuthenticationProvider;
 import org.springframework.security.config.annotation.SecurityConfigurerAdapter;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.web.DefaultSecurityFilterChain;

@@ -1,6 +1,6 @@
 package dev.gooiman.server.config.web;
 
-import dev.gooiman.server.security.resolver.JwtAuthorizationArgumentResolver;
+import dev.gooiman.server.config.web.resolver.JwtAuthorizationArgumentResolver;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;

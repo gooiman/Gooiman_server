@@ -54,6 +54,17 @@ public class Memo {
         return user.getName();
     }
 
+    public Memo(String category, String subCategory, String title, String color,
+        String content, Page page, User user) {
+        this.category = category;
+        this.subCategory = subCategory;
+        this.title = title;
+        this.color = color;
+        this.content = content;
+        this.page = page;
+        this.user = user;
+    }
+
     public void updateInfo(String title, String content, String category, String subCategory,
         String color, User user) {
         this.title = title;

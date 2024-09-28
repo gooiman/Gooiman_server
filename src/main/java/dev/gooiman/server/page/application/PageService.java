@@ -7,12 +7,15 @@ import dev.gooiman.server.memo.repository.MemoRepository;
 import dev.gooiman.server.page.application.dto.CreatePageResponseDto;
 import dev.gooiman.server.page.repository.PageRepository;
 import dev.gooiman.server.page.repository.entity.Page;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -21,26 +24,11 @@ public class PageService {
     private final PageRepository pageRepository;
     private final MemoRepository memoRepository;
 
-    public Page getPageById(String id) {
-        UUID uuid = UUID.fromString(id);
-        return pageRepository.findById(uuid)
+    public Page getPageById(UUID id) {
+        return pageRepository.findById(id)
             .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_PAGE));
     }
 
-//    public CreatePageResponseDto.Res create(CreatePageResponseDto createPageDto) {
-//        String name = createPageDto.getName();
-//        Page page = Page.builder().pageName(name).build();
-//        Page savedPage = pageRepository.save(page);
-//        return CreatePageResponseDto.Res.mapEntityToDto(savedPage);
-//    }
-//
-//    public MemoSummariesResponseDto.Res memoSummaries(String pageId) {
-//        Optional<Page> page = pageRepository.findById(UUID.fromString(pageId));
-//        Page pageEntity = page.get();
-//        String pageName = pageEntity.getPageName();
-//        memoRepository.findById()
-//
-//    }
     @Transactional
     public CreatePageResponseDto.Res create(CreatePageResponseDto createPageDto) {
         String name = createPageDto.getName();

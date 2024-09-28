@@ -10,6 +10,10 @@ spring:
     hibernate:
       ddl-auto: update
     show-sql: true
+  security:
+    secret: ${JWT_SECRET}
+    token-validity-time: ${JWT_TOKEN_VALIDITY_TIME}
+
 springdoc:
   packages-to-scan: dev.gooiman.server
   default-consumes-media-type: application/json;charset=UTF-8

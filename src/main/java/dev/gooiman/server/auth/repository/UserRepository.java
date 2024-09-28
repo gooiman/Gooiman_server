@@ -1,6 +1,6 @@
-package dev.gooiman.server.user.repository;
+package dev.gooiman.server.auth.repository;
 
-import dev.gooiman.server.user.repository.entity.User;
+import dev.gooiman.server.auth.repository.entity.User;
 import java.util.Optional;
 import java.util.UUID;
 import org.springframework.data.jpa.repository.JpaRepository;

@@ -1,6 +1,5 @@
-package dev.gooiman.server.security.exception.handler;
+package dev.gooiman.server.config.security.handler;
 
-import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -13,7 +12,7 @@ public class JwtAccessDeniedHandler implements AccessDeniedHandler {
 
     @Override
     public void handle(HttpServletRequest request, HttpServletResponse response,
-        AccessDeniedException accessDeniedException) throws IOException, ServletException {
+        AccessDeniedException accessDeniedException) throws IOException {
         response.sendError(HttpServletResponse.SC_FORBIDDEN);
     }
 }

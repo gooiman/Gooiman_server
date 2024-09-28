@@ -1,9 +1,9 @@
-package dev.gooiman.server.security.controller;
+package dev.gooiman.server.auth.controller;
 
 import dev.gooiman.server.common.dto.ResponseDto;
-import dev.gooiman.server.security.application.CustomAuthenticationService;
-import dev.gooiman.server.security.application.dto.JwtResponseDto;
-import dev.gooiman.server.security.application.dto.LoginRequestDto;
+import dev.gooiman.server.auth.application.CustomAuthenticationService;
+import dev.gooiman.server.auth.application.dto.JwtResponseDto;
+import dev.gooiman.server.auth.application.dto.LoginRequestDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import java.util.UUID;
@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 @RequestMapping("/api/auth")
 @Tag(name = "Authentication", description = "인증 처리 API")
-public class AuthenticationController {
+public class AuthController {
 
     private final CustomAuthenticationService authenticationService;
 

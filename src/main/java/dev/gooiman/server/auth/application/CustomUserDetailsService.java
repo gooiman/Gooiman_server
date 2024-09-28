@@ -1,11 +1,11 @@
-package dev.gooiman.server.security.application;
+package dev.gooiman.server.auth.application;
 
 
 import dev.gooiman.server.common.exception.CommonException;
 import dev.gooiman.server.common.exception.ErrorCode;
-import dev.gooiman.server.security.repository.entity.CustomUserDetails;
-import dev.gooiman.server.user.repository.UserRepository;
-import dev.gooiman.server.user.repository.entity.User;
+import dev.gooiman.server.auth.application.domain.CustomUserDetails;
+import dev.gooiman.server.auth.repository.UserRepository;
+import dev.gooiman.server.auth.repository.entity.User;
 import java.util.Optional;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;

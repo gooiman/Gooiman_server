@@ -1,11 +1,11 @@
-package dev.gooiman.server.security.provider;
+package dev.gooiman.server.config.security.provider;
 
 
 import static dev.gooiman.server.common.exception.ErrorCode.FAILURE_LOGIN;
 
 import dev.gooiman.server.common.exception.CommonException;
-import dev.gooiman.server.security.application.CustomUserDetailsService;
-import dev.gooiman.server.security.repository.entity.CustomUserDetails;
+import dev.gooiman.server.auth.application.CustomUserDetailsService;
+import dev.gooiman.server.auth.application.domain.CustomUserDetails;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;

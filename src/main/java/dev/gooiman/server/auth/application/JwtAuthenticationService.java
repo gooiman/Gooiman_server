@@ -1,7 +1,7 @@
-package dev.gooiman.server.security.application;
+package dev.gooiman.server.auth.application;
 
 
-import dev.gooiman.server.security.repository.entity.CustomUserDetails;
+import dev.gooiman.server.auth.application.domain.CustomUserDetails;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;

@@ -1,4 +1,4 @@
-package dev.gooiman.server.security.exception.entrypoint;
+package dev.gooiman.server.config.security.entrypoint;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;

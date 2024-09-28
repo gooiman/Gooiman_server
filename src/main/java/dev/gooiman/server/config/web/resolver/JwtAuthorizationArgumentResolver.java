@@ -1,6 +1,6 @@
 package dev.gooiman.server.config.web.resolver;
 
-import dev.gooiman.server.security.repository.entity.CustomUserDetails;
+import dev.gooiman.server.auth.application.domain.CustomUserDetails;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

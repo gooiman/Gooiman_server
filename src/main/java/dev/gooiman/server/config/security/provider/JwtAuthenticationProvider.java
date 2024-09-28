@@ -1,4 +1,4 @@
-package dev.gooiman.server.security.provider;
+package dev.gooiman.server.config.security.provider;
 
 
 import static dev.gooiman.server.common.exception.ErrorCode.EXPIRED_TOKEN_ERROR;
@@ -6,8 +6,8 @@ import static dev.gooiman.server.common.exception.ErrorCode.INVALID_TOKEN_ERROR;
 import static dev.gooiman.server.common.exception.ErrorCode.TOKEN_UNSUPPORTED_ERROR;
 
 import dev.gooiman.server.common.exception.CommonException;
-import dev.gooiman.server.security.application.CustomUserDetailsService;
-import dev.gooiman.server.security.repository.entity.CustomUserDetails;
+import dev.gooiman.server.auth.application.CustomUserDetailsService;
+import dev.gooiman.server.auth.application.domain.CustomUserDetails;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jws;

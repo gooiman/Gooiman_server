@@ -1,13 +1,13 @@
-package dev.gooiman.server.security.application;
+package dev.gooiman.server.auth.application;
 
 import dev.gooiman.server.page.application.PageService;
 import dev.gooiman.server.page.repository.entity.Page;
-import dev.gooiman.server.security.application.dto.JwtResponseDto;
-import dev.gooiman.server.security.application.dto.LoginRequestDto;
-import dev.gooiman.server.security.provider.CustomAuthenticationProvider;
-import dev.gooiman.server.security.repository.entity.CustomUserDetails;
-import dev.gooiman.server.user.repository.UserRepository;
-import dev.gooiman.server.user.repository.entity.User;
+import dev.gooiman.server.auth.application.dto.JwtResponseDto;
+import dev.gooiman.server.auth.application.dto.LoginRequestDto;
+import dev.gooiman.server.config.security.provider.CustomAuthenticationProvider;
+import dev.gooiman.server.auth.application.domain.CustomUserDetails;
+import dev.gooiman.server.auth.repository.UserRepository;
+import dev.gooiman.server.auth.repository.entity.User;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;

@@ -6,8 +6,9 @@ drop table if exists page;
 
 CREATE TABLE page
 (
-    page_id   BINARY(16)   NOT NULL PRIMARY KEY,
-    page_name VARCHAR(255) NOT NULL
+    page_id    BINARY(16)   NOT NULL PRIMARY KEY,
+    page_name  VARCHAR(255) NOT NULL,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4;
 
@@ -53,13 +54,16 @@ VALUES (UUID_TO_BIN('382afa8a-79d2-4fe8-9f61-2c4db816ee3a'), 'user1', '1234',
 
 -- user1의 memo 추가
 INSERT INTO memo (memo_id, category, sub_category, color, title, content, page_id, user_id)
-VALUES (UUID_TO_BIN('24a4aea3-eb63-475c-b9e3-212d58986980'), 'category1', 'sub_category1', '#9EBC9F', 'title1',
+VALUES (UUID_TO_BIN('24a4aea3-eb63-475c-b9e3-212d58986980'), 'category1', 'sub_category1',
+        '#9EBC9F', 'title1',
         'content1.', UUID_TO_BIN('dbdfa00c-4292-48c2-92b4-97c643e6dd5a'),
         UUID_TO_BIN('382afa8a-79d2-4fe8-9f61-2c4db816ee3a')),
-       (UUID_TO_BIN('4bb960d6-4dc1-4b31-a3c7-333c5bd589d2'), 'category2', 'sub_category2', '#9EBC9F', 'title2',
+       (UUID_TO_BIN('4bb960d6-4dc1-4b31-a3c7-333c5bd589d2'), 'category2', 'sub_category2',
+        '#9EBC9F', 'title2',
         'content2', UUID_TO_BIN('dbdfa00c-4292-48c2-92b4-97c643e6dd5a'),
         UUID_TO_BIN('382afa8a-79d2-4fe8-9f61-2c4db816ee3a')),
-       (UUID_TO_BIN('cfda99e4-2d9f-4188-9498-4dea0bdb9011'), 'category3', 'sub_category3', '#9EBC9F', 'title3',
+       (UUID_TO_BIN('cfda99e4-2d9f-4188-9498-4dea0bdb9011'), 'category3', 'sub_category3',
+        '#9EBC9F', 'title3',
         '3', UUID_TO_BIN('dbdfa00c-4292-48c2-92b4-97c643e6dd5a'),
         UUID_TO_BIN('382afa8a-79d2-4fe8-9f61-2c4db816ee3a'));
 

@@ -1,9 +1,9 @@
 package dev.gooiman.server.config.security;
 
-import dev.gooiman.server.config.web.CorsConfig;
 import dev.gooiman.server.config.security.entrypoint.JwtAuthenticationEntryPoint;
 import dev.gooiman.server.config.security.handler.JwtAccessDeniedHandler;
 import dev.gooiman.server.config.security.provider.JwtAuthenticationProvider;
+import dev.gooiman.server.config.web.CorsConfig;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
@@ -44,9 +44,10 @@ public class SecurityConfig {
                 session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .headers(headers -> headers.frameOptions(FrameOptionsConfig::sameOrigin))
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
-                .requestMatchers(HttpMethod.PUT, "/api/page/**").permitAll()
-                .requestMatchers(HttpMethod.POST, "/api/auth/**").permitAll()
+                .requestMatchers("/api").permitAll() // health check
+                .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll() // swagger
+                .requestMatchers(HttpMethod.PUT, "/api/page/**").permitAll() // page 생성
+                .requestMatchers(HttpMethod.POST, "/api/auth/**").permitAll() // 로그인
                 .anyRequest().authenticated())
             .with(new JwtConfig(jwtAuthenticationProvider), customizer -> {
             });

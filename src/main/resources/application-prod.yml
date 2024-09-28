@@ -1,0 +1,17 @@
+server:
+  port: 8080
+  ssl:
+    enabled: true
+    key-store: classpath:keystore.p12
+    key-store-password: ${KEYSTORE_PASSWORD}
+    key-store-type: PKCS12
+springdoc:
+  swagger-ui:
+    enabled: false
+  api-docs:
+    enabled: false
+spring:
+  data:
+    redis:
+      host: redis.gooiman.internal
+      port: 6379

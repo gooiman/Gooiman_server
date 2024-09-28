@@ -1,1 +1,1 @@
-rootProject.name = "GooimanServer"
+rootProject.name = "gooiman-server"

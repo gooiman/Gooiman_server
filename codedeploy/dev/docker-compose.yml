@@ -1,0 +1,10 @@
+name: gooiman-server
+services:
+  api:
+    image: ${ECR_REGISTRY}/${ECR_REPOSITORY}:${IMAGE_TAG}
+    ports:
+      - "8080:8080"
+  redis:
+    image: redis:alpine
+    command: redis-server --port 6379
+    container_name: redis.gooiman.internal

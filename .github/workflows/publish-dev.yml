@@ -3,8 +3,10 @@ name: 개발 서비스 배포
 on:
   push:
     branches: [ develop ]
+  workflow_dispatch:
 env:
   ENVIRONMENT: dev
+  TF_WORKSPACE: dev
 jobs:
   apply-terraform:
     name: 'Terraform 리소스 적용'
@@ -20,8 +22,6 @@ jobs:
           cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
       - name: Terraform 초기화
         run: terraform init
-      - name: Terraform 워크스페이스 설정
-        run: terraform workspace select dev
       - name: AWS 인증 설정
         uses: aws-actions/configure-aws-credentials@v4
         with:
@@ -38,16 +38,41 @@ jobs:
       - name: 출력 생성
         id: generate_output
         run: echo "rdx_endpoint=$(terraform output -raw rds_endpoint)" >> "$GITHUB_OUTPUT"
-
-  docker-build:
-    name: 'Docker 이미지 빌드'
-    needs: [apply-terraform]
+  build-server:
+    name: '서버 빌드'
     runs-on: ubuntu-latest
     steps:
       - name: 레포지토리 체크아웃
         uses: actions/checkout@v4
+      - name: JDK 설치
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'corretto'
+          java-version: '17'
+      - name: 서버 빌드
+        run: |
+          sudo chmod +x ./gradlew
+          ./gradlew clean build -x test
+      - name: 서버 실행 파일 아티펙트 업로드
+        uses: actions/upload-artifact@v4
+        with:
+          name: server
+          path: build/libs/*.jar
+  docker-build:
+    name: 'Docker 이미지 빌드'
+    needs: [apply-terraform, build-server]
+    runs-on: ubuntu-latest
+    steps:
+      - name: 레포지토리 체크아웃
+        uses: actions/checkout@v4
+      - name: 빌드 폴더 생성
+        run: mkdir -p build/libs
+      - name: 서버 실행 파일 다운로드
+        uses: actions/download-artifact@v4
+        with:
+          name: server
+          path: build/libs
       - name: 도커 이미지 빌드
-        # TODO: 빌드 시 Argument 전달
         run: |
           docker buildx build \
           --build-arg SPRING_PROFILES_ACTIVE=${{ env.ENVIRONMENT }} \

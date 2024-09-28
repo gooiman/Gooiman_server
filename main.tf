@@ -221,23 +221,23 @@ resource "aws_security_group" "ec2_sg" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
+  // 개발 환경 8080 포트 허용
+  dynamic "ingress" {
+    for_each = (var.environment == "dev") ? [1] : []
+    content {
+      from_port         = 8080
+      to_port           = 8080
+      protocol          = "tcp"
+      cidr_blocks       = ["0.0.0.0/0"]
+    }
+  }
+
   egress {
     from_port = 0
     to_port   = 0
     protocol  = "-1"
     cidr_blocks = ["0.0.0.0/0"]
   }
-}
-
-# DEV 환경 포트 접근
-resource "aws_security_group_rule" "dev_access" {
-  security_group_id = aws_security_group.ec2_sg.id
-  count = var.environment == "dev" ? 1 : 0
-  type              = "ingress"
-  from_port         = 8080
-  to_port           = 8080
-  protocol          = "tcp"
-  cidr_blocks = ["0.0.0.0/0"]
 }
 
 # EC2 인스턴스

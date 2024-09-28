@@ -52,8 +52,9 @@ public class PageService {
         return CreatePageResponseDto.Res.mapEntityToDto(savedPage);
     }
 
-    public MemoSummariesResponseDto.Res memoSummaries(UUID pageId) {
+    public MemoSummariesResponseDto.Res memoSummaries(String inputId) {
         try {
+            UUID pageId = UUID.fromString(inputId);
             Optional<Page> page = pageRepository.findById(pageId);
             Page pageEntity = page.get();
             String pageName = pageEntity.getPageName();

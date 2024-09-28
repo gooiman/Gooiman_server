@@ -50,6 +50,9 @@ public class Memo {
     @JoinColumn(name = "USER_ID")
     private User user;
 
+    @Column(name = "USER_ID", insertable = false, updatable = false)
+    private UUID userID;
+
     public String getUsername() {
         return user.getName();
     }

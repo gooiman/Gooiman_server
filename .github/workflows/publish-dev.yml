@@ -5,11 +5,12 @@ on:
     branches: [ develop ]
 env:
   ENVIRONMENT: dev
-  SPRING_PROFILES_ACTIVE: dev
 jobs:
   apply-terraform:
     name: 'Terraform 리소스 적용'
     runs-on: ubuntu-latest
+    outputs:
+      rds_endpoint: ${{ steps.generate_output.outputs.rdx_endpoint }}
     steps:
       - name: 레포지토리 체크아웃
         uses: actions/checkout@v4
@@ -28,9 +29,15 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ap-northeast-2
       - name: Terraform 적용
-        # TODO: Terraform variable 적용
-        run: terraform apply -auto-approve
-      # TODO: Terraform output 추가 필요
+        run: |
+          terraform apply -auto-approve \
+          -var 'environment=${{ env.ENVIRONMENT }}' \
+          -var 'aws_region=ap-northeast-2' \
+          -var 'database_user=${{ secrets.DEV_DATABASE_USER }}' \
+          -var 'database_password=${{ secrets.DEV_DATABASE_PASSWORD }}'
+      - name: 출력 생성
+        id: generate_output
+        run: echo "rdx_endpoint=$(terraform output -raw rds_endpoint)" >> "$GITHUB_OUTPUT"
 
   docker-build:
     name: 'Docker 이미지 빌드'
@@ -41,7 +48,13 @@ jobs:
         uses: actions/checkout@v4
       - name: 도커 이미지 빌드
         # TODO: 빌드 시 Argument 전달
-        run: docker build -t gooiman-api:${{ github.sha }} .
+        run: |
+          docker buildx build \
+          --build-arg SPRING_PROFILES_ACTIVE=${{ env.ENVIRONMENT }} \
+          --build-arg DATABASE_ADDRESS=${{ needs.apply-terraform.outputs.rdx_endpoint }} \
+          --build-arg DATABASE_USERNAME=${{ secrets.DEV_DATABASE_USER }} \
+          --build-arg DATABASE_PASSWORD=${{ secrets.DEV_DATABASE_PASSWORD }} \
+          -t gooiman-api:${{ github.sha }} .
 
       - name: 도커 이미지 저장
         run: docker save gooiman-api:${{ github.sha }} > image.tar
@@ -82,8 +95,7 @@ jobs:
       - name: Amazon ECR에 이미지 푸시
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-          # TODO: Terraform output으로부터 ECR 이름 가져오기
-          ECR_REPOSITORY: gooiman_dev
+          ECR_REPOSITORY: gooiman_${{ env.ENVIRONMENT }}
           IMAGE_TAG: ${{ github.sha }}
         run: |
           docker tag gooiman-api:$IMAGE_TAG $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
@@ -103,14 +115,18 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ap-northeast-2
+      - name: 배포 파일 업로드
+        run: |
+          cd ./codedeploy/${{ env.ENVIRONMENT }}
+          zip -r ${{ github.sha }}.zip .
+          aws s3 rm s3://gooiman-${{ env.ENVIRONMENT }}-deploy-bucket/ --recursive --include "*.zip" 
+          aws s3 cp ${{ github.sha }}.zip s3://gooiman-${{ env.ENVIRONMENT }}-deploy-bucket/${{ github.sha }}.zip
+        
 
       - name: CodeDeploy 배포 생성
-        # TODO: Terraform output으로부터 정보 가져오기
         run: |
-          cd ./codedeploy/dev
-          zip -r deploy.zip .
           aws deploy create-deployment \
-            --application-name YOUR_APPLICATION_NAME \
-            --deployment-group-name YOUR_DEPLOYMENT_GROUP_NAME \
+            --application-name gooiman_${{ env.ENVIRONMENT }}_deploy \
+            --deployment-group-name gooiman_${{ env.ENVIRONMENT }}_deploy_group \
             --deployment-config-name CodeDeployDefault.OneAtATime \
-            --s3-location bucket=YOUR_S3_BUCKET,bundleType=zip,key=deploy.zip
+            --s3-location bucket=gooiman-${{ env.ENVIRONMENT }}-deploy-bucket,bundleType=zip,key=${{ github.sha }}.zip

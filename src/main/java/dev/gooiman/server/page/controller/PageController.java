@@ -6,11 +6,14 @@ import dev.gooiman.server.page.application.PageService;
 import dev.gooiman.server.page.application.dto.CreatePageResponseDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
 import java.util.UUID;
+import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RequiredArgsConstructor
 @RestController
@@ -30,8 +33,8 @@ public class PageController {
 
     @GetMapping("/{pageId}")
     @Operation(summary = "페이지 정보 조회", description = "페이지 정보를 조회합니다. 주제 및 소주제로 그룹화된 메모 제목이 같이 제공됩니다.")
-    public ResponseDto getPageSummaries(@PathVariable String pageId) {
-        MemoSummariesResponseDto.Res res = pageService.memoSummaries(UUID.fromString(pageId));
+    public ResponseDto getPageSummaries(@PathVariable UUID pageId) {
+        MemoSummariesResponseDto.Res res = pageService.memoSummaries(pageId);
         return ResponseDto.ok(res);
     }
 }

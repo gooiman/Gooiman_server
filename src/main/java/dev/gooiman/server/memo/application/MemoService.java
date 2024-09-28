@@ -44,9 +44,8 @@ public class MemoService {
     }
 
     @Transactional
-    public CommonSuccessDto updateMemo(String memoId, @RequestBody UpdateMemoRequestDto dto) {
-        UUID uuid = UUID.fromString(memoId);
-        Memo memo = memoRepository.findById(uuid)
+    public CommonSuccessDto updateMemo(UUID memoId, @RequestBody UpdateMemoRequestDto dto) {
+        Memo memo = memoRepository.findById(memoId)
             .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_MEMO));
         User user = userService.getUserByName(dto.author());
         memo.updateInfo(dto.title(), dto.content(), dto.category(), dto.subCategory(), dto.color(),
@@ -56,10 +55,9 @@ public class MemoService {
     }
 
     @Transactional
-    public CommonSuccessDto deleteMemo(String memoId) {
-        UUID uuid = UUID.fromString(memoId);
-        Memo memo = memoRepository.findById(uuid)
-            .orElseThrow(() -> new CommonException(ErrorCode.NOT_MATCH_AUTH_CODE));
+    public CommonSuccessDto deleteMemo(UUID memoId) {
+        Memo memo = memoRepository.findById(memoId)
+            .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_MEMO));
         memoRepository.delete(memo);
 
         return CommonSuccessDto.fromEntity(true);
@@ -67,21 +65,17 @@ public class MemoService {
 
     @Transactional
     public CommonIdResponseDto createMemo(CreateMemoRequestDto dto) {
-        UUID id = UUID.randomUUID();
         User user = userService.getUserByName(dto.author());
         Page page = pageService.getPageById(dto.pageId());
-        Memo memo = new Memo(id, dto.category(), dto.subCategory(), dto.title(), dto.color(),
-            dto.content(),
-            page, user);
-        memoRepository.save(memo);
+        Memo memo = new Memo(dto.category(), dto.subCategory(), dto.title(), dto.color(),
+            dto.content(), page, user);
+        Memo savedMemo = memoRepository.save(memo);
 
-        return new CommonIdResponseDto(id);
+        return new CommonIdResponseDto(savedMemo.getMemoId());
     }
 
-    public GetMemoResponseDto getMemo(String memoId) {
-        UUID uuid = UUID.fromString(memoId);
-
-        Memo memo = memoRepository.findById(uuid)
+    public GetMemoResponseDto getMemo(UUID memoId) {
+        Memo memo = memoRepository.findById(memoId)
             .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_MEMO));
 
         return new GetMemoResponseDto(memo.getMemoId(), memo.getTitle(), memo.getContent(),

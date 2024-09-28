@@ -6,6 +6,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import java.util.UUID;
@@ -19,7 +20,7 @@ import org.hibernate.annotations.GenericGenerator;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Table(name = "USERS")
+@Table(name = "users")
 @Entity
 public class User {
 
@@ -33,6 +34,6 @@ public class User {
     private String password;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "PAGE_ID")
     private Page page;
-
 }

@@ -1,3 +1,5 @@
+import org.springframework.boot.gradle.tasks.run.BootRun
+
 plugins {
     java
     id("org.springframework.boot") version "3.3.4"
@@ -43,4 +45,8 @@ tasks.withType<Test> {
 
 tasks.bootRun {
     args = listOf("--spring.profiles.active=local", "--spring.docker.compose.file=docker-compose.bootrun.yml")
+}
+
+tasks.withType<BootRun> {
+    jvmArgs = listOf("-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=0.0.0.0:32323")
 }

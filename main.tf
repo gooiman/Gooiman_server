@@ -237,6 +237,7 @@ resource "aws_security_group_rule" "dev_access" {
   from_port         = 8080
   to_port           = 8080
   protocol          = "tcp"
+  cidr_blocks = ["0.0.0.0/0"]
 }
 
 # EC2 인스턴스

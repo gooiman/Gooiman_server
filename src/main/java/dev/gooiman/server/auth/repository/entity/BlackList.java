@@ -1,7 +1,6 @@
 package dev.gooiman.server.auth.repository.entity;
 
 import lombok.Getter;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.redis.core.RedisHash;
 import org.springframework.data.redis.core.TimeToLive;
@@ -11,13 +10,13 @@ import org.springframework.data.redis.core.TimeToLive;
 public class BlackList {
 
     @Id
-    private String token;
+    private final String token;
 
     @TimeToLive
-    @Value("${spring.security.blacklist-validity-time}")
-    private Long expiration;
+    private final Long expiration;
 
-    public BlackList(String token) {
+    public BlackList(String token, Long expiration) {
         this.token = token;
+        this.expiration = expiration;
     }
 }

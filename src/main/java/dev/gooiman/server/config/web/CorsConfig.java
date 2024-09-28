@@ -16,7 +16,8 @@ public class CorsConfig {
 
         corsConfig.setAllowCredentials(true);
         corsConfig.setAllowedOrigins(
-            List.of("http://localhost:3000", "http://localhost:8080/*", "http://localhost:5173"));
+            List.of("http://localhost:3000", "http://localhost:8080/*", "http://localhost:5173",
+                "https://gooiman.eatsteak.dev"));
         corsConfig.setAllowedMethods(List.of("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
         corsConfig.setAllowedHeaders(List.of("*"));
         corsConfig.setAllowCredentials(true);

@@ -1,6 +1,6 @@
 name: gooiman-server
 services:
   api:
-    image: ${IMAGE_TAG}
+    image: ${ECR_REGISTRY}/${ECR_REPOSITORY}:${IMAGE_TAG}
     ports:
       - "8080:8080"

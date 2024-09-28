@@ -1,9 +1,9 @@
-package dev.gooiman.server.security.fliter;
+package dev.gooiman.server.config.security.fliter;
 
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 import static org.springframework.util.StringUtils.hasText;
 
-import dev.gooiman.server.security.provider.JwtAuthenticationProvider;
+import dev.gooiman.server.config.security.provider.JwtAuthenticationProvider;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

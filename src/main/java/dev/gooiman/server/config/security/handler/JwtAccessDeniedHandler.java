@@ -1,4 +1,4 @@
-package dev.gooiman.server.security.exception.handler;
+package dev.gooiman.server.config.security.handler;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

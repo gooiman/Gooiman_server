@@ -1,4 +1,4 @@
-package dev.gooiman.server.security.application.dto;
+package dev.gooiman.server.auth.application.dto;
 
 
 import lombok.Builder;

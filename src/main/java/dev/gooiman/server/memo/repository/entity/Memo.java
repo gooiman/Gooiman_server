@@ -1,7 +1,7 @@
 package dev.gooiman.server.memo.repository.entity;
 
 import dev.gooiman.server.page.repository.entity.Page;
-import dev.gooiman.server.user.repository.entity.User;
+import dev.gooiman.server.auth.repository.entity.User;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;

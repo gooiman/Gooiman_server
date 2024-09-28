@@ -1,6 +1,6 @@
-package dev.gooiman.server.security.repository.entity;
+package dev.gooiman.server.auth.application.domain;
 
-import dev.gooiman.server.user.repository.entity.User;
+import dev.gooiman.server.auth.repository.entity.User;
 import java.util.Collection;
 import java.util.List;
 import java.util.UUID;

@@ -1,4 +1,4 @@
-package dev.gooiman.server.user.repository.entity;
+package dev.gooiman.server.auth.repository.entity;
 
 import dev.gooiman.server.page.repository.entity.Page;
 import jakarta.persistence.Column;

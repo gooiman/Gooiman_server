@@ -1,9 +1,9 @@
 package dev.gooiman.server.config.security;
 
 import dev.gooiman.server.config.web.CorsConfig;
-import dev.gooiman.server.security.exception.entrypoint.JwtAuthenticationEntryPoint;
-import dev.gooiman.server.security.exception.handler.JwtAccessDeniedHandler;
-import dev.gooiman.server.security.provider.JwtAuthenticationProvider;
+import dev.gooiman.server.config.security.entrypoint.JwtAuthenticationEntryPoint;
+import dev.gooiman.server.config.security.handler.JwtAccessDeniedHandler;
+import dev.gooiman.server.config.security.provider.JwtAuthenticationProvider;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;

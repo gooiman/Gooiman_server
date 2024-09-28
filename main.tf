@@ -121,7 +121,7 @@ resource "aws_db_instance" "db" {
   password             = var.database_password
   vpc_security_group_ids = [aws_security_group.rds_sg.id]
   db_subnet_group_name = aws_db_subnet_group.db_subnet.id
-  skip_final_snapshot = true
+  skip_final_snapshot  = true
   tags = {
     Name = "gooiman_db_${var.environment}"
   }
@@ -207,28 +207,25 @@ resource "aws_security_group" "ec2_sg" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
-  ingress {
-    from_port = 80
-    to_port   = 80
-    protocol  = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-
-  ingress {
-    from_port = 443
-    to_port   = 443
-    protocol  = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-
   // 개발 환경 8080 포트 허용
   dynamic "ingress" {
     for_each = (var.environment == "dev") ? [1] : []
     content {
-      from_port         = 8080
-      to_port           = 8080
-      protocol          = "tcp"
-      cidr_blocks       = ["0.0.0.0/0"]
+      from_port = 8080
+      to_port   = 8080
+      protocol  = "tcp"
+      cidr_blocks = ["0.0.0.0/0"]
+    }
+  }
+
+  // 운영 환경 8080 리다이렉트
+  dynamic "ingress" {
+    for_each = (var.environment == "prod") ? [1] : []
+    content {
+      from_port = 8080
+      to_port   = 443
+      protocol  = "tcp"
+      cidr_blocks = ["0.0.0.0/0"]
     }
   }
 

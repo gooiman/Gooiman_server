@@ -155,6 +155,8 @@ jobs:
           touch scripts/deploy.sh
           echo "aws ecr get-login-password --region ap-northeast-2 | docker login --username AWS --password-stdin $ECR_REGISTRY" >> scripts/deploy.sh
           echo "docker pull $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >> scripts/deploy.sh
+          echo "docker stop $(docker ps -aq)" >> scripts/deploy.sh
+          echo "docker rm $(docker ps -aq)" >> scripts/deploy.sh
           echo "docker run -p 8080:8080 -e PROFILE=dev -d --restart always --name gooiman-api $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >> scripts/deploy.sh
           zip -r ${{ github.sha }}.zip .
           aws s3 rm s3://gooiman-${{ env.ENVIRONMENT }}-deploy-bucket/ --recursive --include "*.zip" 

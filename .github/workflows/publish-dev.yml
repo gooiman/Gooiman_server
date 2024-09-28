@@ -159,7 +159,6 @@ jobs:
           echo "docker rm $(docker ps -aq)" >> scripts/deploy.sh
           echo "docker run -p 8080:8080 -e PROFILE=dev -d --restart always --name gooiman-api $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >> scripts/deploy.sh
           zip -r ${{ github.sha }}.zip .
-          aws s3 rm s3://gooiman-${{ env.ENVIRONMENT }}-deploy-bucket/ --recursive --include "*.zip" 
           aws s3 cp ${{ github.sha }}.zip s3://gooiman-${{ env.ENVIRONMENT }}-deploy-bucket/${{ github.sha }}.zip
           
 

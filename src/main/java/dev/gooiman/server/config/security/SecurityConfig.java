@@ -44,6 +44,7 @@ public class SecurityConfig {
                 session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .headers(headers -> headers.frameOptions(FrameOptionsConfig::sameOrigin))
             .authorizeHttpRequests(auth -> auth
+                .requestMatchers("/error").permitAll() // error
                 .requestMatchers("/api").permitAll() // health check
                 .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll() // swagger
                 .requestMatchers(HttpMethod.PUT, "/api/page/**").permitAll() // page 생성

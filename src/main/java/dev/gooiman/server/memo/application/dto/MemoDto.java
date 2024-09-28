@@ -13,7 +13,8 @@ public record MemoDto(
     String content,
     String author,
     String category,
-    String subCategory
+    String subCategory,
+    String color
 ) {
 
   public static MemoDto fromEntity(Memo memo) {
@@ -23,7 +24,8 @@ public record MemoDto(
         memo.getContent(),
         memo.getUser().getName(),
         memo.getCategory(),
-        memo.getSubCategory()
+        memo.getSubCategory(),
+        memo.getColor()
     );
   }
 }

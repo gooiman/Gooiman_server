@@ -84,7 +84,7 @@ public class MemoService {
         Memo memo = memoRepository.findById(uuid)
             .orElseThrow(() -> new CommonException(ErrorCode.NOT_MATCH_AUTH_CODE));
         User user = userService.getUserByName(dto.author());
-        memo.updateInfo(dto.title(), dto.content(), dto.category(), dto.subCategory(), user);
+        memo.updateInfo(dto.title(), dto.content(), dto.category(), dto.subCategory(), dto.color(), user);
 
         return CommonSuccessDto.fromEntity(true);
     }
@@ -102,10 +102,9 @@ public class MemoService {
     @Transactional
     public CommonIdResponseDto createMemo(CreateMemoRequestDto dto) {
         UUID id = UUID.randomUUID();
-
         User user = userService.getUserByName(dto.author());
         Page page = pageService.getPageById(dto.pageId());
-        Memo memo = new Memo(id, dto.category(), dto.subCategory(), dto.title(), dto.content(),
+        Memo memo = new Memo(id, dto.category(), dto.subCategory(), dto.title(), dto.color(), dto.content(),
             page, user);
         memoRepository.save(memo);
 

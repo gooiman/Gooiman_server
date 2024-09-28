@@ -3,6 +3,7 @@ name: 프로덕션 서비스 배포
 on:
   push:
     branches: [ master ]
+  workflow_dispatch:
 env:
   ENVIRONMENT: prod
   TF_WORKSPACE: prod

@@ -10,3 +10,8 @@ springdoc:
     enabled: false
   api-docs:
     enabled: false
+spring:
+  data:
+    redis:
+      host: redis.gooiman.internal
+      port: 6379

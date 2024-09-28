@@ -12,7 +12,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface MemoRepository extends JpaRepository<Memo, UUID> {
 
-    @Query("select m.title, m.category, m.subCategory from Memo m where m.page = :pageId")
+    @Query("select m.title, m.category, m.subCategory from Memo m where m.page.pageId = :pageId")
     List<Object[]> getMemoSummarise(@Param("pageId") UUID pageId);
 
 }

@@ -29,11 +29,7 @@ public class PageService {
     }
 
     public MemoSummariseResponseDto.Res memoSummarise(UUID pageId) {
-        System.out.println(pageId);
-        System.out.println("+++++++++++++++++++++++++");
         Optional<Page> page = pageRepository.findById(pageId);
-        System.out.println("+++++++++++++++++++++++++");
-        System.out.println(pageId);
         Page pageEntity = page.get();
         String pageName = pageEntity.getPageName();
         Map<String, Map<String, List<String>>> memoSummarise = new HashMap<>();

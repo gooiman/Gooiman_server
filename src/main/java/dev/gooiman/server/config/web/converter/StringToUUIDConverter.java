@@ -1,4 +1,4 @@
-package dev.gooiman.server.common.converter;
+package dev.gooiman.server.config.web.converter;
 
 import java.util.UUID;
 import org.springframework.core.convert.converter.Converter;

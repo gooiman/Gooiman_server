@@ -219,11 +219,11 @@ resource "aws_security_group" "ec2_sg" {
     }
   }
 
-  // 운영 환경 8080 리다이렉트
+  // 운영 환경 443 포트 허용
   dynamic "ingress" {
     for_each = (var.environment == "prod") ? [1] : []
     content {
-      from_port = 8080
+      from_port = 443
       to_port   = 443
       protocol  = "tcp"
       cidr_blocks = ["0.0.0.0/0"]
